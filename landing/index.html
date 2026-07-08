@@ -82,15 +82,16 @@
     transition:color .2s, border-color .2s;
   }
   .nav-links a:hover{ color:var(--olive-dark); border-color:var(--clay); }
+  .nav-social{ display:flex; align-items:center; gap:10px; }
   .nav-cta{
-    display:flex; align-items:center; gap:8px;
-    background:var(--olive); color:#fff;
-    padding:9px 16px; border-radius:100px;
-    font-size:0.9rem; font-weight:600; text-decoration:none;
-    white-space:nowrap;
-    transition:background .2s;
+    display:flex; align-items:center; justify-content:center;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--olive); color:#fff; text-decoration:none;
+    flex-shrink:0;
+    transition:background .2s, transform .2s;
   }
-  .nav-cta:hover{ background:var(--olive-dark); }
+  .nav-cta svg{ width:20px; height:20px; }
+  .nav-cta:hover{ background:var(--olive-dark); transform:translateY(-2px); }
   .nav-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
   .nav-toggle svg{ width:26px; height:26px; }
 
@@ -420,10 +421,17 @@
       <li><a href="#ayudar">Cómo ayudar</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <a class="nav-cta" href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20quer%C3%ADa%20consultar%20por%20un%20animal%20en%20adopci%C3%B3n" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
-      WhatsApp
-    </a>
+    <div class="nav-social">
+      <a class="nav-cta" href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20quer%C3%ADa%20consultar%20por%20un%20animal%20en%20adopci%C3%B3n" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
+      </a>
+      <a class="nav-cta" href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg>
+      </a>
+      <a class="nav-cta" href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg>
+      </a>
+    </div>
   </div>
 </header>
 
@@ -773,10 +781,17 @@
             </div>
           </li>
           <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M14 8h2a2 2 0 0 1 2 2v2M10 21v-6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v6"/></svg></div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg></div>
             <div>
               <a href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener">Rovame Protección Animal</a>
               <span>Síguenos en Facebook</span>
+            </div>
+          </li>
+          <li>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg></div>
+            <div>
+              <a href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener">@rovamelajara</a>
+              <span>Síguenos en Instagram</span>
             </div>
           </li>
         </ul>

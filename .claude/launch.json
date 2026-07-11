@@ -6,6 +6,12 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": ["-c", "cd cms && npm run dev"],
       "port": 3333
+    },
+    {
+      "name": "landing",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd landing && npx --yes serve -l 4173 ."],
+      "port": 4173
     }
   ]
 }

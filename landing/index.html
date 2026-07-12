@@ -1,924 +1,466 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rovame · Santuario de animales — Villanueva de la Jara, Cuenca</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Mulish:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #F1ECDC;
-    --paper-alt: #E7DFC5;
-    --card: #FBF8EF;
-    --ink: #2B2820;
-    --ink-soft: #5A5445;
-    --olive: #4F5A3A;
-    --olive-dark: #394026;
-    --clay: #A8503A;
-    --clay-dark: #8A3F2D;
-    --gold: #D4A93E;
-    --line: rgba(43,40,32,0.14);
-    --shadow: 0 8px 24px rgba(43,40,32,0.12);
+    --paper:#F4EEDF; --paper-alt:#EAE0C8; --card:#FCF8ED;
+    --ink:#2C2717; --ink-soft:#5C543D;
+    --olive:#586A37; --olive-dark:#3A4324;
+    --clay:#AE4E33; --clay-dark:#853B27;
+    --gold:#D3A33C;
+    --line:rgba(44,39,23,0.14);
+    --line-strong:rgba(44,39,23,0.28);
+    --shadow:0 12px 34px rgba(44,39,23,0.10);
+    --shadow-sm:0 5px 16px rgba(44,39,23,0.08);
+    --r:20px;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
-    margin:0;
+    margin:0; color:var(--ink);
     background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', sans-serif;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, rgba(211,163,60,0.07), transparent 40%), radial-gradient(circle at 88% 22%, rgba(88,106,55,0.06), transparent 42%);
+    font-family:'Mulish',system-ui,sans-serif; line-height:1.66;
+    -webkit-font-smoothing:antialiased; font-size:17px;
   }
-  h1,h2,h3,.display{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    letter-spacing:-0.01em;
-    margin:0;
-  }
-  .mono{
-    font-family:'IBM Plex Mono', monospace;
-    letter-spacing:0.02em;
-  }
-  a{color:inherit;}
-  img{max-width:100%;display:block;}
-  .wrap{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 28px;
-  }
-  section{padding:100px 0;}
-  @media (max-width:640px){ section{padding:64px 0;} }
+  h1,h2,h3{ font-family:'Newsreader',Georgia,serif; font-weight:600; margin:0; letter-spacing:-0.005em; line-height:1.1; }
+  p{margin:0;}
+  img{max-width:100%; display:block;}
+  .hand{ font-family:'Caveat',cursive; }
+  a{ color:var(--clay-dark); }
+  a:hover{ color:var(--clay); }
 
-  /* ---------- NAV ---------- */
-  header.nav{
-    position:sticky; top:0; z-index:50;
-    background:rgba(241,236,220,0.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav-inner{
-    max-width:1120px; margin:0 auto; padding:16px 28px;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .logo{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    display:flex; align-items:center; gap:8px;
-  }
-  .logo-mark{
-    width:30px; height:30px; flex-shrink:0;
-  }
-  .nav-links{
-    display:flex; gap:28px; list-style:none; margin:0; padding:0;
-    font-size:0.95rem; font-weight:500;
-  }
-  .nav-links a{
-    text-decoration:none; color:var(--ink-soft);
-    padding-bottom:4px; border-bottom:2px solid transparent;
-    transition:color .2s, border-color .2s;
-  }
+  .nav-header{ position:sticky; top:0; z-index:50; background:rgba(244,238,223,0.92); backdrop-filter:blur(9px); border-bottom:1px solid var(--line); }
+  .nav-inner{ max-width:1180px; margin:0 auto; padding:14px clamp(18px,4vw,42px); display:flex; align-items:center; gap:22px; justify-content:space-between; }
+  .nav-links{ display:flex; gap:clamp(15px,2vw,28px); list-style:none; margin:0; padding:0; font-size:1rem; font-weight:600; }
+  .nav-links a{ text-decoration:none; color:var(--ink-soft); padding-bottom:3px; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
   .nav-links a:hover{ color:var(--olive-dark); border-color:var(--clay); }
-  .nav-social{ display:flex; align-items:center; gap:10px; }
-  .nav-cta{
-    display:flex; align-items:center; justify-content:center;
-    width:40px; height:40px; border-radius:50%;
-    background:var(--olive); color:#fff; text-decoration:none;
-    flex-shrink:0;
-    transition:background .2s, transform .2s;
-  }
-  .nav-cta svg{ width:20px; height:20px; }
-  .nav-cta:hover{ background:var(--olive-dark); transform:translateY(-2px); }
-  .nav-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .nav-right{ display:flex; align-items:center; gap:12px; }
+  .nav-social{ display:flex; gap:8px; }
+  .nav-social a{ width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:transparent; border:1px solid var(--line); color:var(--olive-dark); transition:background .2s,color .2s,transform .2s; }
+  .nav-social a:hover{ background:var(--olive); color:#fff; transform:translateY(-2px); }
+  .nav-social svg{ width:18px; height:18px; }
+  .nav-toggle{ display:none; background:none; border:none; cursor:pointer; padding:9px; color:var(--ink); }
   .nav-toggle svg{ width:26px; height:26px; }
-
-  @media (max-width:860px){
-    .nav-links{
-      position:absolute; top:100%; left:0; right:0;
-      flex-direction:column; gap:0;
-      background:var(--paper);
-      border-bottom:1px solid var(--line);
-      max-height:0; overflow:hidden;
-      transition:max-height .3s ease;
-    }
-    .nav-links.open{ max-height:300px; }
-    .nav-links a{
-      padding:16px 28px; border-bottom:1px solid var(--line);
-      display:block; width:100%;
-    }
-    .nav-toggle{ display:block; }
+  @media(max-width:980px){
+    .nav-links{ position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; background:var(--paper); border-bottom:1px solid var(--line); max-height:0; overflow:hidden; transition:max-height .35s ease; }
+    .nav-links[data-open="true"]{ max-height:400px; }
+    .nav-links li{ width:100%; }
+    .nav-links a{ padding:16px clamp(18px,4vw,42px); display:block; border-bottom:1px solid var(--line); width:100%; }
+    .nav-social{ display:none; }
+    .nav-toggle{ display:inline-flex; }
   }
-
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative;
-    overflow:hidden;
-    padding-top:72px;
-  }
-  .hero-inner{
-    max-width:1120px; margin:0 auto; padding:64px 28px 0;
-    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
-  }
-  @media (max-width:860px){ .hero-inner{ grid-template-columns:1fr; } }
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;
-    color:var(--clay-dark); font-weight:600;
-    display:flex; align-items:center; gap:10px; margin-bottom:18px;
-  }
-  .eyebrow::before{
-    content:''; width:22px; height:1.5px; background:var(--clay-dark);
-  }
-  .hero h1{
-    font-size:clamp(2.2rem, 4.6vw, 3.4rem);
-    line-height:1.08;
-    margin-bottom:22px;
-  }
-  .hero h1 em{ color:var(--clay); font-style:italic; }
-  .hero p.lead{
-    font-size:1.1rem; color:var(--ink-soft); max-width:46ch; margin-bottom:32px;
-  }
-  .btn-row{ display:flex; gap:14px; flex-wrap:wrap; }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:14px 26px; border-radius:8px;
-    font-weight:600; font-size:0.98rem; text-decoration:none;
-    transition:transform .15s, box-shadow .15s;
-  }
-  .btn:hover{ transform:translateY(-2px); }
-  .btn-primary{ background:var(--clay); color:#fff; box-shadow:0 6px 18px rgba(168,80,58,0.35); }
-  .btn-primary:hover{ background:var(--clay-dark); }
-  .btn-outline{
-    background:transparent; color:var(--olive-dark);
-    border:1.5px solid var(--olive-dark);
-  }
-  .btn-outline:hover{ background:var(--olive-dark); color:#fff; }
-
-  /* countryside signature illustration */
-  .hero-art{ position:relative; }
-  .hero-art svg{ width:100%; height:auto; }
-
-  .about-video{ position:relative; }
-  .about-video video{
-    width:100%; height:auto; display:block;
-    border-radius:14px; border:1px solid var(--line); box-shadow:var(--shadow);
-    background:#000;
-  }
-
-  .hills-strip{ width:100%; height:auto; display:block; margin-top:60px; }
-
-  /* ---------- SECTION HEADERS ---------- */
-  .section-head{ max-width:60ch; margin-bottom:48px; }
-  .section-head .eyebrow{ margin-bottom:12px; }
-  .section-head h2{ font-size:clamp(1.7rem, 3vw, 2.3rem); margin-bottom:14px; }
-  .section-head p{ color:var(--ink-soft); font-size:1.02rem; }
-
-  .alt-bg{ background:var(--paper-alt); }
-
-  /* ---------- SOBRE ---------- */
-  .about-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;
-  }
-  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; gap:32px; } }
-  .about-grid p{ color:var(--ink-soft); margin-bottom:16px; }
-  .badge-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
-  .badge{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem; font-weight:600; letter-spacing:0.03em;
-    background:var(--card); border:1px solid var(--line);
-    padding:9px 14px; border-radius:6px; color:var(--olive-dark);
-  }
-
-  /* ---------- KENNEL TAG CARDS (signature) ---------- */
-  .tag-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:32px 28px;
-  }
-  @media (max-width:860px){ .tag-grid{ grid-template-columns:repeat(2, 1fr); } }
-  @media (max-width:560px){ .tag-grid{ grid-template-columns:1fr; } }
-
-  .kennel-tag{
-    position:relative;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:28px 22px 24px;
-    box-shadow:var(--shadow);
-    transition:transform .2s;
-  }
-  .kennel-tag:hover{ transform:translateY(-4px) rotate(0deg) !important; }
-  .kennel-tag:nth-child(3n+1){ transform:rotate(-1.4deg); }
-  .kennel-tag:nth-child(3n+2){ transform:rotate(0.9deg); }
-  .kennel-tag:nth-child(3n+3){ transform:rotate(-0.6deg); }
-
-  .tag-hole{
-    position:absolute; top:14px; left:50%; transform:translateX(-50%);
-    width:14px; height:14px; border-radius:50%;
-    background:var(--paper);
-    border:2px solid var(--line);
-  }
-  .tag-id{
-    text-align:center; font-size:0.72rem; color:var(--ink-soft);
-    margin-bottom:14px; letter-spacing:0.08em;
-  }
-  .tag-avatar{
-    width:84px; height:84px; margin:0 auto 16px;
-    border-radius:50%;
-    background:var(--paper-alt);
-    display:flex; align-items:center; justify-content:center;
-    overflow:hidden;
-  }
-  .tag-avatar img{ width:100%; height:100%; object-fit:cover; }
-  .tag-avatar svg{ width:52px; height:52px; }
-  .kennel-tag h3{ text-align:center; font-size:1.3rem; margin-bottom:4px; }
-  .tag-meta{
-    text-align:center; font-size:0.85rem; color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .tag-traits{
-    display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:18px;
-  }
-  .trait{
-    font-size:0.72rem; padding:4px 10px; border-radius:100px;
-    background:var(--paper-alt); color:var(--olive-dark); font-weight:600;
-  }
-  .tag-cta{
-    display:flex; justify-content:center;
-  }
-  .tag-cta a{
-    font-size:0.85rem; font-weight:600; color:var(--clay-dark);
-    text-decoration:none; border-bottom:1.5px solid var(--clay);
-    padding-bottom:2px;
-  }
-  .tag-cta a:hover{ color:var(--clay-dark); }
-
-  .placeholder-note{
-    margin-top:36px; font-size:0.85rem; color:var(--ink-soft);
-    background:var(--card); border:1px dashed var(--line);
-    padding:14px 18px; border-radius:8px;
-  }
-
-  /* ---------- HISTORIAS ---------- */
-  .story-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:28px;
-  }
-  @media (max-width:860px){ .story-grid{ grid-template-columns:1fr; } }
-  .story-card{
-    background:var(--card); border:1px solid var(--line);
-    border-radius:14px; padding:26px; box-shadow:var(--shadow);
-  }
-  .story-top{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .story-avatar{
-    width:48px; height:48px; border-radius:50%;
-    background:var(--olive); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;
-    overflow:hidden; flex-shrink:0;
-  }
-  .story-avatar img{ width:100%; height:100%; object-fit:cover; }
-  .story-name{ font-weight:700; font-size:1.05rem; }
-  .story-sub{ font-size:0.8rem; color:var(--ink-soft); }
-  .story-quote{
-    font-family:'Fraunces', serif; font-style:italic; font-size:1.08rem;
-    color:var(--ink); line-height:1.5;
-  }
-  .story-quote::before{ content:'“'; color:var(--clay); }
-  .story-quote::after{ content:'”'; color:var(--clay); }
-
-  /* ---------- FACEBOOK FEED ---------- */
-  .fb-section-inner{
-    display:grid; grid-template-columns:0.9fr 1.1fr; gap:48px; align-items:center;
-  }
-  @media (max-width:860px){ .fb-section-inner{ grid-template-columns:1fr; } }
-  .fb-copy p{ color:var(--ink-soft); margin-bottom:20px; }
-  .fb-follow-btn{
-    display:inline-flex; align-items:center; gap:10px;
-    background:#1877F2; color:#fff; text-decoration:none;
-    padding:12px 22px; border-radius:8px; font-weight:600; font-size:0.95rem;
-  }
-  .fb-follow-btn:hover{ background:#1360c9; }
-  .fb-embed-frame{
-    background:var(--card); border:1px solid var(--line); border-radius:14px;
-    box-shadow:var(--shadow); padding:16px; overflow:hidden;
-    display:flex; justify-content:center;
-  }
-  .fb-embed-frame .fb-page{ width:100%; }
-
-  /* ---------- AYUDAR ---------- */
-  .help-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
-  }
-  @media (max-width:960px){ .help-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:560px){ .help-grid{ grid-template-columns:1fr; } }
-  .help-card{
-    background:var(--card); border:1px solid var(--line); border-radius:14px;
-    padding:26px 22px; box-shadow:var(--shadow);
-    display:flex; flex-direction:column; gap:12px;
-  }
-  .help-icon{
-    width:44px; height:44px; border-radius:10px;
-    background:var(--olive); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .help-icon svg{ width:24px; height:24px; }
-  .help-card h3{ font-size:1.15rem; }
-  .help-card p{ font-size:0.9rem; color:var(--ink-soft); flex-grow:1; }
-  .donate-box{
-    margin-top:6px; background:var(--paper-alt); border-radius:8px;
-    padding:12px 14px; font-size:0.82rem;
-  }
-  .donate-box .mono{ display:block; font-size:0.8rem; word-break:break-all; margin-top:4px; color:var(--olive-dark); font-weight:600; }
-
-  /* ---------- CONTACTO ---------- */
-  .contact-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;
-  }
-  @media (max-width:860px){ .contact-grid{ grid-template-columns:1fr; } }
-  .contact-list{ list-style:none; margin:0 0 28px; padding:0; }
-  .contact-list li{
-    display:flex; align-items:center; gap:14px;
-    padding:14px 0; border-bottom:1px solid var(--line);
-  }
-  .contact-list li:last-child{ border-bottom:none; }
-  .c-icon{
-    width:38px; height:38px; border-radius:50%;
-    background:var(--olive); color:#fff; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .c-icon svg{ width:19px; height:19px; }
-  .contact-list a{ text-decoration:none; font-weight:600; }
-  .contact-list span{ display:block; font-size:0.78rem; color:var(--ink-soft); font-weight:400; }
-  .map-frame{
-    width:100%; height:320px; border:1px solid var(--line);
-    border-radius:14px; overflow:hidden; box-shadow:var(--shadow);
-  }
-  .map-frame iframe{ width:100%; height:100%; border:0; filter:sepia(8%) saturate(90%); }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    background:var(--olive-dark); color:#EFE9D6;
-    padding:48px 0 28px;
-  }
-  .footer-inner{
-    display:flex; justify-content:space-between; align-items:center;
-    flex-wrap:wrap; gap:20px; margin-bottom:28px;
-  }
-  .footer-logo{ font-family:'Fraunces', serif; font-weight:700; font-size:1.3rem; }
-  .footer-links{ display:flex; gap:22px; list-style:none; padding:0; margin:0; font-size:0.9rem; }
-  .footer-links a{ text-decoration:none; color:#D9D2B7; }
-  .footer-links a:hover{ color:#fff; }
-  .footer-bottom{
-    border-top:1px solid rgba(255,255,255,0.14); padding-top:20px;
-    font-size:0.8rem; color:#B9B294; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
-  }
-
-  /* ---------- WHATSAPP FLOATING BUTTON ---------- */
-  .wa-float{
-    position:fixed; bottom:24px; right:24px; z-index:60;
-    width:60px; height:60px; border-radius:50%;
-    background:#3d7a4f;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 10px 26px rgba(0,0,0,0.28);
-    text-decoration:none;
-    animation:wa-pulse 2.6s ease-in-out infinite;
-  }
-  .wa-float svg{ width:30px; height:30px; fill:#fff; }
+  .hero-inner{ display:grid; grid-template-columns:1.03fr 0.97fr; gap:clamp(34px,5vw,62px); align-items:center; }
+  .labor-inner{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(34px,5vw,58px); align-items:center; }
+  .fb-inner{ display:grid; grid-template-columns:0.82fr 1.18fr; gap:clamp(32px,4vw,52px); align-items:center; }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,4vw,52px); align-items:start; }
+  @media(max-width:900px){ .hero-inner,.labor-inner,.fb-inner,.contact-grid{ grid-template-columns:1fr; } }
+  html,body{ overflow-x:hidden; }
+  .animal-card{ transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
+  .animal-card:nth-child(3n+1){ transform:rotate(-1.6deg); }
+  .animal-card:nth-child(3n+2){ transform:rotate(1.1deg); }
+  .animal-card:nth-child(3n+3){ transform:rotate(-0.7deg); }
+  .animal-card:hover{ transform:rotate(0deg) translateY(-5px); box-shadow:var(--shadow); z-index:2; }
   @keyframes wa-pulse{
-    0%,100%{ box-shadow:0 10px 26px rgba(0,0,0,0.28), 0 0 0 0 rgba(61,122,79,0.5); }
-    50%{ box-shadow:0 10px 26px rgba(0,0,0,0.28), 0 0 0 10px rgba(61,122,79,0); }
+    0%,100%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 0 rgba(88,106,55,0.5); }
+    50%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 12px rgba(88,106,55,0); }
   }
-  @media (prefers-reduced-motion:reduce){
-    .wa-float{ animation:none; }
-    html{ scroll-behavior:auto; }
-  }
-  @media (max-width:560px){
-    .wa-float{ width:52px; height:52px; bottom:16px; right:16px; }
-    .wa-float svg{ width:26px; height:26px; }
-  }
-
+  @media(prefers-reduced-motion:reduce){ .wa-float{ animation:none; } html{ scroll-behavior:auto; } }
   ::selection{ background:var(--gold); color:var(--ink); }
-  a:focus-visible, button:focus-visible{
-    outline:2.5px solid var(--clay); outline-offset:2px;
-  }
+  a:focus-visible,button:focus-visible{ outline:2.5px solid var(--clay); outline-offset:3px; border-radius:3px; }
 </style>
-</head>
-<body>
+</helmet>
 
-<header class="nav">
+<header class="nav-header">
   <div class="nav-inner">
-    <a href="#inicio" class="logo">
-      <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19" stroke="#4F5A3A" stroke-width="2" fill="#FBF8EF"/>
-        <path d="M13 22c0-4 3-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6Z" fill="#A8503A"/>
-        <circle cx="16.5" cy="14" r="2.6" fill="#4F5A3A"/>
-        <circle cx="23.5" cy="14" r="2.6" fill="#4F5A3A"/>
-      </svg>
-      Rovame
+    <a href="#inicio" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink);">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#586A37" stroke-width="2" fill="#FCF8ED"/><path d="M13 22c0-4 3-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6Z" fill="#AE4E33"/><circle cx="16.5" cy="14" r="2.6" fill="#586A37"/><circle cx="23.5" cy="14" r="2.6" fill="#586A37"/></svg>
+      <span style="font-family:'Newsreader',serif; font-weight:600; font-size:1.55rem; letter-spacing:-0.02em;">Rovame</span>
     </a>
-    <button class="nav-toggle" aria-label="Abrir menú" id="navToggle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2B2820" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#adopta">Adopta</a></li>
-      <li><a href="#historias">Historias</a></li>
-      <li><a href="#facebook">Novedades</a></li>
-      <li><a href="#ayudar">Cómo ayudar</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+    <ul class="nav-links" data-open="{{ menuOpen }}">
+      <li><a href="#labor" onClick="{{ closeMenu }}">Nuestra labor</a></li>
+      <li><a href="#adopta" onClick="{{ closeMenu }}">Adopta</a></li>
+      <li><a href="#historias" onClick="{{ closeMenu }}">Historias</a></li>
+      <li><a href="#facebook" onClick="{{ closeMenu }}">Novedades</a></li>
+      <li><a href="#ayudar" onClick="{{ closeMenu }}">Cómo ayudar</a></li>
+      <li><a href="#contacto" onClick="{{ closeMenu }}">Contacto</a></li>
     </ul>
-    <div class="nav-social">
-      <a class="nav-cta" href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20quer%C3%ADa%20consultar%20por%20un%20animal%20en%20adopci%C3%B3n" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
-      </a>
-      <a class="nav-cta" href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg>
-      </a>
-      <a class="nav-cta" href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg>
-      </a>
+    <div class="nav-right">
+      <div class="nav-social">
+        <a href="https://wa.me/34626296550" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg></a>
+        <a href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg></a>
+      </div>
+      <a href="#adopta" style="display:inline-flex; align-items:center; height:44px; padding:0 20px; border-radius:12px; background:var(--olive); color:#fff; text-decoration:none; font-weight:700; font-size:0.96rem; box-shadow:0 6px 16px rgba(88,106,55,0.3); transition:background .2s,transform .2s;" style-hover="background:var(--olive-dark); transform:translateY(-1px);">Adopta</a>
+      <button class="nav-toggle" aria-label="Abrir menú" onClick="{{ toggleMenu }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="inicio">
-  <div class="hero-inner">
+<section class="hero" id="inicio" data-screen-label="Hero" style="padding:clamp(44px,6vw,76px) 0 clamp(52px,7vw,84px);">
+  <div class="hero-inner" style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div>
-      <p class="eyebrow">Villanueva de la Jara · Cuenca</p>
-      <h1>Un rincón de campo para los que <em>nadie</em> recoge.</h1>
-      <p class="lead">Rovame es un refugio de animales sin ánimo de lucro que rescata, cuida y busca un hogar para animales abandonados en Villanueva de la Jara y alrededores.</p>
-      <div class="btn-row">
-        <a href="#adopta" class="btn btn-primary">Quiero adoptar</a>
-        <a href="#ayudar" class="btn btn-outline">Quiero ayudar</a>
+      <p class="hand" style="font-size:1.7rem; color:var(--clay); font-weight:600; margin-bottom:6px; transform:rotate(-2deg); transform-origin:left;">un refugio de campo en Cuenca</p>
+      <h1 style="font-size:clamp(2.5rem,5vw,4rem); margin-bottom:24px;">Un rincón de campo para los que <em style="font-style:italic; color:var(--clay);">nadie</em> recoge.</h1>
+      <p style="font-size:1.2rem; color:var(--ink-soft); max-width:48ch; margin-bottom:32px;">Somos un grupo de vecinos de Villanueva de la Jara que rescata, cura y cuida animales abandonados hasta que encuentran una familia. Sin sueldos y sin subvenciones: solo tiempo, cariño y muchas manos.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+        <a href="#adopta" style="display:inline-flex; align-items:center; gap:9px; height:54px; padding:0 30px; border-radius:13px; background:var(--clay); color:#fff; text-decoration:none; font-weight:700; font-size:1.05rem; box-shadow:0 10px 26px rgba(174,78,51,0.32); transition:background .2s,transform .15s;" style-hover="background:var(--clay-dark); transform:translateY(-2px);">Conoce a nuestros animales</a>
+        <a href="#labor" style="font-weight:700; font-size:1.02rem; color:var(--olive-dark); text-decoration:none; border-bottom:2px solid var(--olive); padding-bottom:3px;">Qué hacemos →</a>
       </div>
     </div>
-    <div class="hero-art">
-      <svg viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="210" cy="150" r="150" fill="#E7DFC5"/>
-        <circle cx="300" cy="90" r="34" fill="#D4A93E" opacity="0.85"/>
-        <path d="M20 220 Q120 160 210 210 T400 200 V340 H20 Z" fill="#8B9769"/>
-        <path d="M0 250 Q110 200 210 245 T420 230 V340 H0 Z" fill="#4F5A3A"/>
-        <rect x="120" y="150" width="52" height="46" rx="3" fill="#F1ECDC" stroke="#2B2820" stroke-width="2"/>
-        <polygon points="112,150 146,120 180,150" fill="#A8503A" stroke="#2B2820" stroke-width="2"/>
-        <rect x="138" y="168" width="16" height="28" fill="#8A3F2D"/>
-        <rect x="190" y="160" width="40" height="36" rx="3" fill="#FBF8EF" stroke="#2B2820" stroke-width="2"/>
-        <polygon points="184,160 210,136 236,160" fill="#4F5A3A" stroke="#2B2820" stroke-width="2"/>
-        <g transform="translate(255,255)">
-          <ellipse cx="30" cy="46" rx="34" ry="10" fill="#2B2820" opacity="0.08"/>
-          <path d="M5 40 Q0 20 12 12 Q18 4 30 6 Q44 3 50 14 Q60 18 58 34 Q60 46 46 48 Q30 54 16 48 Q4 50 5 40Z" fill="#A8503A" stroke="#2B2820" stroke-width="2"/>
-          <circle cx="16" cy="24" r="3" fill="#2B2820"/>
-          <path d="M8 10 Q4 -2 12 2 Q14 8 8 10Z" fill="#A8503A" stroke="#2B2820" stroke-width="1.6"/>
-          <path d="M22 4 Q22 -6 30 -2 Q30 6 22 4Z" fill="#A8503A" stroke="#2B2820" stroke-width="1.6"/>
-        </g>
-        <g transform="translate(70,270)">
-          <path d="M0 34 Q-4 14 10 6 Q22 -4 36 4 Q48 8 46 26 Q48 36 34 38 Q18 44 6 38 Q-2 40 0 34Z" fill="#4F5A3A" stroke="#2B2820" stroke-width="2"/>
-          <circle cx="12" cy="18" r="2.6" fill="#2B2820"/>
-          <polygon points="4,4 10,-6 16,4" fill="#4F5A3A" stroke="#2B2820" stroke-width="1.6"/>
-          <polygon points="22,2 28,-8 34,2" fill="#4F5A3A" stroke="#2B2820" stroke-width="1.6"/>
-        </g>
-      </svg>
+    <div style="position:relative;">
+      <div style="aspect-ratio:4/5; border-radius:var(--r); overflow:hidden; background:repeating-linear-gradient(135deg,var(--paper-alt),var(--paper-alt) 14px,#DFD3B7 14px,#DFD3B7 28px); border:2px dashed var(--line-strong); display:flex; align-items:flex-end; padding:20px; transform:rotate(1.2deg);">
+        <span class="hand" style="font-size:1.35rem; background:var(--card); padding:6px 16px; border-radius:10px; border:1px solid var(--line); color:var(--ink-soft); box-shadow:var(--shadow-sm); transform:rotate(-1.6deg);">aquí, una foto del refugio</span>
+      </div>
+      <div style="position:absolute; bottom:-20px; left:-14px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:13px 17px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:12px; transform:rotate(-2deg);">
+        <div style="width:42px; height:42px; border-radius:50%; background:var(--olive); display:flex; align-items:center; justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1 4 2 .5-1 2-2 4-2 3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/></svg></div>
+        <div style="line-height:1.25;"><p style="font-family:'Newsreader',serif; font-weight:600; font-size:1.05rem;">Todos tienen nombre</p><p style="font-size:0.85rem; color:var(--ink-soft);">y una historia que contar</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= SOBRE ================= -->
-<section id="sobre">
-  <div class="wrap">
-    <div class="about-grid">
+<section id="labor" data-screen-label="Nuestra labor" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div class="labor-inner" style="margin-bottom:clamp(38px,5vw,60px);">
       <div>
-        <p class="eyebrow">Conócenos</p>
-        <h2 style="font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:18px;">Vecinos que decidieron no mirar hacia otro lado</h2>
-        <p>Rovame nace del compromiso de un grupo de voluntarios de Villanueva de la Jara. Recogemos animales abandonados o en riesgo de maltrato, les damos techo, comida y atención veterinaria, y trabajamos cada día para encontrarles una familia para siempre.</p>
-        <p>Todo lo que hacemos depende del voluntariado y de las donaciones de gente como tú — no recibimos financiación pública. Cada adopción, cada Bizum y cada hora de voluntariado nos ayuda a seguir dando refugio.</p>
-        <div class="badge-row">
-          <span class="badge mono">REFUGIO RURAL</span>
-          <span class="badge mono">100% VOLUNTARIADO</span>
-          <span class="badge mono">SIN ÁNIMO DE LUCRO</span>
-        </div>
-      </div>
-      <div class="about-video">
-        <video controls preload="metadata" poster="assets/conocenos-poster.jpg" playsinline>
+        <video controls preload="metadata" poster="assets/conocenos-poster.jpg" playsinline style="width:100%; height:auto; display:block; border-radius:var(--r); border:1px solid var(--line); box-shadow:var(--shadow); background:#000;">
           <source src="assets/conocenos.mp4" type="video/mp4">
         </video>
       </div>
+      <div>
+        <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:4px; transform:rotate(-1.5deg); transform-origin:left;">lo que hacemos cada día</p>
+        <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:18px;">Rescatar, cuidar y no rendirse nunca</h2>
+        <p style="color:var(--ink-soft); margin-bottom:16px; font-size:1.08rem;">Rovame nace del compromiso de un puñado de voluntarios de Villanueva de la Jara. Recogemos animales abandonados o en riesgo, les damos techo, comida y atención veterinaria, y no paramos hasta encontrarles una familia para siempre.</p>
+        <p style="color:var(--ink-soft); font-size:1.08rem;">No recibimos financiación pública: todo lo sostiene el voluntariado y la ayuda de gente como tú. Cada animal que entra por la puerta encuentra aquí un sitio.</p>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;">
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px 22px;">
+        <div style="width:46px; height:46px; border-radius:50%; background:var(--paper-alt); display:flex; align-items:center; justify-content:center; margin-bottom:14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#586A37" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1 4 2 .5-1 2-2 4-2 3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/></svg></div>
+        <h3 style="font-size:1.2rem; margin-bottom:6px;">Rescatamos</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Recogemos animales abandonados o en peligro, vengan de donde vengan.</p>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px 22px;">
+        <div style="width:46px; height:46px; border-radius:50%; background:var(--paper-alt); display:flex; align-items:center; justify-content:center; margin-bottom:14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#586A37" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3 style="font-size:1.2rem; margin-bottom:6px;">Curamos</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Veterinario, vacunas y todo lo que necesiten para recuperarse.</p>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px 22px;">
+        <div style="width:46px; height:46px; border-radius:50%; background:var(--paper-alt); display:flex; align-items:center; justify-content:center; margin-bottom:14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#586A37" stroke-width="2"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></div>
+        <h3 style="font-size:1.2rem; margin-bottom:6px;">Cuidamos</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Techo, comida y compañía mientras esperan. Cada uno con su nombre.</p>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px 22px;">
+        <div style="width:46px; height:46px; border-radius:50%; background:var(--paper-alt); display:flex; align-items:center; justify-content:center; margin-bottom:14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#586A37" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 20c0-3.3 2.5-5.2 5.5-5.2s5.5 1.9 5.5 5.2M15 20c0-2.3 1.2-3.9 3.4-4"/></svg></div>
+        <h3 style="font-size:1.2rem; margin-bottom:6px;">Buscamos familia</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">No paramos hasta encontrarles un hogar para siempre.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= ADOPTA ================= -->
-<section id="adopta" class="alt-bg">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Animales en adopción</p>
-      <h2>Buscan un hogar</h2>
-      <p>Estos son algunos de los animales que esperan una familia en Rovame. Pregunta por cualquiera de ellos por WhatsApp.</p>
+<section id="adopta" data-screen-label="Adopta" style="padding:clamp(52px,8vw,96px) 0;">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div style="max-width:60ch; margin-bottom:40px;">
+      <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">esperando en el refugio</p>
+      <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Buscan un hogar</h2>
+      <p style="color:var(--ink-soft); font-size:1.1rem;">Estos son algunos de los animales que esperan una familia. Pregunta por cualquiera de ellos por WhatsApp — te acompañamos en todo el proceso, sin prisas.</p>
     </div>
-    <div class="tag-grid" id="tagGrid">
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 014</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M8 34c0-14 10-24 22-24s22 10 22 24-10 20-22 20-22-6-22-20Z" fill="#A8503A"/><circle cx="21" cy="20" r="4" fill="#4F5A3A"/><circle cx="39" cy="20" r="4" fill="#4F5A3A"/><path d="M24 40q6 5 12 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:26px;">
+      <sc-for list="{{ animals }}" as="a" hint-placeholder-count="6">
+        <div class="animal-card" style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
+          <div style="background:var(--paper-alt); padding:15px 0 11px; display:flex; flex-direction:column; align-items:center; gap:7px; border-bottom:1px dashed var(--line-strong);">
+            <div style="width:15px; height:15px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong); box-shadow:inset 0 1px 2px rgba(44,39,23,0.28);"></div>
+            <span style="font-size:0.72rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);">{{ a.ficha }}</span>
+          </div>
+          <div style="padding:22px 22px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; flex:1;">
+            <div style="width:120px; height:120px; border-radius:50%; overflow:hidden; margin:0 auto 16px; background:var(--paper-alt); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <sc-if value="{{ a.photoUrl }}" hint-placeholder-val="{{ false }}">
+                {{ a.photoNode }}
+              </sc-if>
+              <sc-if value="{{ a.noPhoto }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%; height:100%; background:repeating-linear-gradient(135deg,var(--paper-alt),var(--paper-alt) 8px,#DFD3B7 8px,#DFD3B7 16px); display:flex; align-items:center; justify-content:center;">
+                  <span class="hand" style="font-size:1.15rem; color:var(--ink-soft);">foto</span>
+                </div>
+              </sc-if>
+            </div>
+            <h3 style="font-size:1.5rem; margin-bottom:2px;">{{ a.nombre }}</h3>
+            <p style="font-size:0.92rem; color:var(--ink-soft); margin-bottom:14px;">{{ a.meta }}</p>
+            <div style="display:flex; gap:7px; flex-wrap:wrap; justify-content:center; margin-bottom:18px;">
+              <sc-for list="{{ a.traits }}" as="t" hint-placeholder-count="2">
+                <span style="font-size:0.78rem; padding:5px 12px; border-radius:100px; background:var(--paper-alt); color:var(--olive-dark); font-weight:700;">{{ t }}</span>
+              </sc-for>
+            </div>
+            <a href="{{ a.waHref }}" target="_blank" rel="noopener" style="margin-top:auto; align-self:stretch; display:inline-flex; align-items:center; justify-content:center; gap:8px; height:47px; border-radius:12px; background:var(--olive); color:#fff; text-decoration:none; font-weight:700; font-size:0.94rem; transition:background .2s;" style-hover="background:var(--olive-dark);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5Z"/></svg>
+              Pregunta por {{ a.nombre }}
+            </a>
+          </div>
         </div>
-        <h3>Luna</h3>
-        <p class="tag-meta">Mestiza · ~3 años</p>
-        <div class="tag-traits">
-          <span class="trait">Cariñosa</span>
-          <span class="trait">Buena con niños</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Luna" target="_blank" rel="noopener">Pregunta por Luna →</a>
-        </div>
-      </div>
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 022</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M8 34c0-14 10-24 22-24s22 10 22 24-10 20-22 20-22-6-22-20Z" fill="#4F5A3A"/><circle cx="21" cy="20" r="4" fill="#2B2820"/><circle cx="39" cy="20" r="4" fill="#2B2820"/><path d="M24 40q6 5 12 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/><polygon points="14,10 22,-2 26,12" fill="#4F5A3A"/><polygon points="34,12 38,-2 46,10" fill="#4F5A3A"/></svg>
-        </div>
-        <h3>Toby</h3>
-        <p class="tag-meta">Podenco · ~2 años</p>
-        <div class="tag-traits">
-          <span class="trait">Juguetón</span>
-          <span class="trait">Sociable</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Toby" target="_blank" rel="noopener">Pregunta por Toby →</a>
-        </div>
-      </div>
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 031</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M12 40 Q8 24 20 18 Q30 8 40 18 Q52 22 48 38 Q50 48 34 50 Q22 56 14 48 Q4 50 12 40Z" fill="#D4A93E"/><circle cx="22" cy="28" r="3" fill="#2B2820"/><circle cx="36" cy="27" r="3" fill="#2B2820"/><path d="M24 38q4 3 8 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/><polygon points="12,16 18,2 24,14" fill="#D4A93E"/><polygon points="34,12 40,0 46,14" fill="#D4A93E"/></svg>
-        </div>
-        <h3>Canela</h3>
-        <p class="tag-meta">Gata europea · ~1 año</p>
-        <div class="tag-traits">
-          <span class="trait">Independiente</span>
-          <span class="trait">Dulce</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Canela" target="_blank" rel="noopener">Pregunta por Canela →</a>
-        </div>
-      </div>
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 037</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M8 34c0-14 10-24 22-24s22 10 22 24-10 20-22 20-22-6-22-20Z" fill="#FBF8EF" stroke="#2B2820" stroke-width="1.5"/><circle cx="21" cy="20" r="4" fill="#4F5A3A"/><circle cx="39" cy="20" r="4" fill="#4F5A3A"/><path d="M24 40q6 5 12 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Nube</h3>
-        <p class="tag-meta">Mestiza · ~5 años</p>
-        <div class="tag-traits">
-          <span class="trait">Tranquila</span>
-          <span class="trait">Ideal piso</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Nube" target="_blank" rel="noopener">Pregunta por Nube →</a>
-        </div>
-      </div>
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 041</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M8 34c0-14 10-24 22-24s22 10 22 24-10 20-22 20-22-6-22-20Z" fill="#8A3F2D"/><circle cx="21" cy="20" r="4" fill="#2B2820"/><circle cx="39" cy="20" r="4" fill="#2B2820"/><path d="M24 40q6 5 12 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Rocco</h3>
-        <p class="tag-meta">Cruce de mastín · ~4 años</p>
-        <div class="tag-traits">
-          <span class="trait">Protector</span>
-          <span class="trait">Necesita espacio</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Rocco" target="_blank" rel="noopener">Pregunta por Rocco →</a>
-        </div>
-      </div>
-
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">FICHA Nº 048</p>
-        <div class="tag-avatar">
-          <svg viewBox="0 0 60 60" fill="none"><path d="M12 40 Q8 24 20 18 Q30 8 40 18 Q52 22 48 38 Q50 48 34 50 Q22 56 14 48 Q4 50 12 40Z" fill="#2B2820" opacity="0.75"/><circle cx="22" cy="28" r="3" fill="#D4A93E"/><circle cx="36" cy="27" r="3" fill="#D4A93E"/><path d="M24 38q4 3 8 0" stroke="#D4A93E" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Pipa</h3>
-        <p class="tag-meta">Gata negra · ~8 meses</p>
-        <div class="tag-traits">
-          <span class="trait">Curiosa</span>
-          <span class="trait">Muy mimosa</span>
-        </div>
-        <div class="tag-cta">
-          <a href="https://wa.me/34626296550?text=Hola%20Rovame%2C%20me%20interesa%20Pipa" target="_blank" rel="noopener">Pregunta por Pipa →</a>
-        </div>
-      </div>
-
+      </sc-for>
     </div>
   </div>
 </section>
 
-<!-- ================= HISTORIAS DE ÉXITO ================= -->
-<section id="historias">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Finales felices</p>
-      <h2>Historias de éxito</h2>
-      <p>Cada adopción es distinta, pero todas tienen algo en común: un animal que encontró su sitio. Estas son algunas — anímate a escribir la tuya.</p>
+<sc-if value="{{ showStories }}" hint-placeholder-val="{{ true }}">
+<section id="historias" data-screen-label="Historias" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div style="max-width:60ch; margin-bottom:40px;">
+      <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">finales felices</p>
+      <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Ya encontraron su sitio</h2>
+      <p style="color:var(--ink-soft); font-size:1.1rem;">Cada adopción es distinta, pero todas tienen algo en común: un animal que por fin encontró su hogar. Anímate a escribir la tuya.</p>
     </div>
-    <div class="story-grid" id="storyGrid">
-
-      <div class="story-card">
-        <div class="story-top">
-          <div class="story-avatar">C</div>
-          <div>
-            <p class="story-name">Colín</p>
-            <p class="story-sub">Adoptado por la familia Martínez</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:24px;">
+      <sc-for list="{{ stories }}" as="s" hint-placeholder-count="3">
+        <div style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:28px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:13px; margin-bottom:18px;">
+            <sc-if value="{{ s.photoUrl }}" hint-placeholder-val="{{ false }}">
+              {{ s.photoNode }}
+            </sc-if>
+            <sc-if value="{{ s.noPhoto }}" hint-placeholder-val="{{ true }}">
+              <div style="width:52px; height:52px; border-radius:50%; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Newsreader',serif; font-weight:600; font-size:1.2rem; flex-shrink:0;">{{ s.initial }}</div>
+            </sc-if>
+            <div style="line-height:1.3;">
+              <p style="font-weight:800; font-size:1.08rem;">{{ s.nombre }}</p>
+              <p style="font-size:0.82rem; color:var(--ink-soft);">{{ s.sub }}</p>
+            </div>
           </div>
+          <p style="font-family:'Newsreader',serif; font-style:italic; font-size:1.16rem; color:var(--ink); line-height:1.5;">“{{ s.quote }}”</p>
         </div>
-        <p class="story-quote">Llegó asustado y desconfiado. Hoy nos recibe en la puerta cada tarde como si lleváramos toda la vida juntos.</p>
-      </div>
-
-      <div class="story-card">
-        <div class="story-top">
-          <div class="story-avatar">D</div>
-          <div>
-            <p class="story-name">Duna</p>
-            <p class="story-sub">Adoptada por Marta, Casasimarro</p>
-          </div>
-        </div>
-        <p class="story-quote">Buscábamos compañía para nuestro perro mayor. Duna le devolvió las ganas de jugar a los dos.</p>
-      </div>
-
-      <div class="story-card">
-        <div class="story-top">
-          <div class="story-avatar">B</div>
-          <div>
-            <p class="story-name">Bruno</p>
-            <p class="story-sub">Adoptado por la familia Sánchez</p>
-          </div>
-        </div>
-        <p class="story-quote">Nos dijeron que sería un perro tranquilo para el pueblo. Se quedaron cortos: es la alegría de toda la calle.</p>
-      </div>
-
+      </sc-for>
     </div>
   </div>
 </section>
+</sc-if>
 
-<!-- ================= FACEBOOK FEED ================= -->
-<section id="facebook" class="alt-bg">
-  <div class="wrap">
-    <div class="fb-section-inner">
-      <div class="fb-copy">
-        <p class="eyebrow">Al día</p>
-        <h2 style="font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:14px;">Últimas publicaciones</h2>
-        <p>Este panel se conecta directamente con nuestra página de Facebook: cada vez que publicamos un animal, una noticia o un aviso, aparece aquí solo, sin que nadie tenga que actualizar la web.</p>
-        <a class="fb-follow-btn" href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener">
+<sc-if value="{{ showFacebook }}" hint-placeholder-val="{{ true }}">
+<section id="facebook" data-screen-label="Novedades" style="padding:clamp(52px,8vw,96px) 0;">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div class="fb-inner">
+      <div>
+        <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">al día</p>
+        <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:16px;">Últimas publicaciones</h2>
+        <p style="color:var(--ink-soft); margin-bottom:26px; font-size:1.06rem;">Este panel se conecta directamente con nuestra página de Facebook: cada vez que publicamos un animal, una noticia o un aviso, aparece aquí solo, sin que nadie tenga que actualizar la web.</p>
+        <a href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; height:50px; padding:0 24px; border-radius:12px; background:#1877F2; color:#fff; text-decoration:none; font-weight:700; font-size:0.98rem; transition:background .2s;" style-hover="background:#1360c9;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg>
           Síguenos en Facebook
         </a>
       </div>
-      <div class="fb-embed-frame">
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FROVAMEPROTECCIONANIMAL.ES%2F&tabs=timeline&width=480&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&locale=es_ES"
-          width="480" height="560" style="border:none; overflow:hidden; max-width:100%;"
-          scrolling="no" frameborder="0" allowfullscreen="true"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          title="Última publicación de Rovame en Facebook">
-        </iframe>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow); padding:16px; overflow:hidden; display:flex; justify-content:center;">
+        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FROVAMEPROTECCIONANIMAL.ES%2F&tabs=timeline&width=480&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&locale=es_ES" width="480" height="560" style="border:none; overflow:hidden; max-width:100%;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Última publicación de Rovame en Facebook"></iframe>
       </div>
     </div>
   </div>
 </section>
+</sc-if>
 
-<!-- ================= CÓMO AYUDAR ================= -->
-<section id="ayudar" class="alt-bg">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Cómo ayudar</p>
-      <h2>Todo ayuda, aunque no puedas adoptar</h2>
-      <p>Rovame funciona gracias a voluntarios y a gente que colabora de formas muy distintas. Elige la que mejor encaje contigo.</p>
+<section id="ayudar" data-screen-label="Cómo ayudar" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div style="max-width:62ch; margin-bottom:40px;">
+      <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">echa una mano</p>
+      <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Todo suma, aunque no puedas adoptar</h2>
+      <p style="color:var(--ink-soft); font-size:1.1rem;">El refugio funciona gracias a voluntarios y a gente que colabora de formas muy distintas. Elige la que mejor encaje contigo — cualquiera nos ayuda a seguir.</p>
     </div>
-    <div class="help-grid">
-
-      <div class="help-card">
-        <div class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1 4 2 .5-1 2-2 4-2 3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/></svg></div>
-        <h3>Adopta</h3>
-        <p>Dale un hogar para siempre a uno de nuestros animales. Te acompañamos en todo el proceso.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;">
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px 24px; display:flex; flex-direction:column; gap:11px;">
+        <div style="width:46px; height:46px; border-radius:12px; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1 4 2 .5-1 2-2 4-2 3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/></svg></div>
+        <h3 style="font-size:1.22rem;">Adopta</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Dale un hogar para siempre a uno de nuestros animales. Te acompañamos en todo.</p>
       </div>
-
-      <div class="help-card">
-        <div class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v6M12 22v-6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg></div>
-        <h3>Dona</h3>
-        <p>Cada euro se destina a comida, vacunas y veterinario.</p>
-        <div class="donate-box">
-          Bizum: <span class="mono">626 29 65 50</span>
-          IBAN: <span class="mono">ES79 2103 7782 4700 3000 4262</span>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px 24px; display:flex; flex-direction:column; gap:11px;">
+        <div style="width:46px; height:46px; border-radius:12px; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></div>
+        <h3 style="font-size:1.22rem;">Acoge</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Ofrece un hogar temporal mientras buscamos una familia. El material lo ponemos nosotros.</p>
+      </div>
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px 24px; display:flex; flex-direction:column; gap:11px;">
+        <div style="width:46px; height:46px; border-radius:12px; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <h3 style="font-size:1.22rem;">Sé voluntario</h3>
+        <p style="font-size:0.94rem; color:var(--ink-soft);">Paseos, socialización, transporte o difusión — hacen falta manos de todo tipo.</p>
+      </div>
+      <div style="background:var(--card); border:1px dashed var(--line-strong); border-radius:16px; padding:26px 24px; display:flex; flex-direction:column; gap:11px;">
+        <div style="width:46px; height:46px; border-radius:12px; background:var(--clay); color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21C6 17 3 13 3 8.5 3 5.5 5.2 4 7.4 4c1.7 0 2.9.9 3.6 1.9C11.7 4.9 12.9 4 14.6 4 16.8 4 19 5.5 19 8.5c0 .8-.1 1.6-.4 2.3"/><path d="M15 16h6M18 13v6"/></svg></div>
+        <h3 style="font-size:1.22rem;">Colabora</h3>
+        <p style="font-size:0.9rem; color:var(--ink-soft);">Si te apetece echar una mano con comida o veterinario, puedes hacerlo por Bizum o transferencia.</p>
+        <div style="margin-top:4px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--paper-alt); border-radius:9px; padding:8px 10px 8px 13px;">
+            <div><span style="font-size:0.7rem; color:var(--ink-soft); display:block; font-weight:700;">Bizum</span><span style="font-weight:700; font-size:0.98rem;">626 29 65 50</span></div>
+            <button onClick="{{ copyBizum }}" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">{{ bizumLabel }}</button>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--paper-alt); border-radius:9px; padding:8px 10px 8px 13px;">
+            <div style="min-width:0;"><span style="font-size:0.7rem; color:var(--ink-soft); display:block; font-weight:700;">IBAN</span><span style="font-weight:700; font-size:0.82rem; word-break:break-all;">ES79 2103 7782 4700 3000 4262</span></div>
+            <button onClick="{{ copyIban }}" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">{{ ibanLabel }}</button>
+          </div>
         </div>
       </div>
-
-      <div class="help-card">
-        <div class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></div>
-        <h3>Acoge</h3>
-        <p>Ofrece un hogar temporal mientras encontramos una familia definitiva. Todo el material lo ponemos nosotros.</p>
-      </div>
-
-
-      <div class="help-card">
-        <div class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-        <h3>Sé voluntario</h3>
-        <p>Paseos, socialización, transporte o difusión — necesitamos manos de todo tipo. Escríbenos y te contamos cómo.</p>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- ================= CONTACTO ================= -->
-<section id="contacto">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Contacto</p>
-      <h2>Habla con nosotros</h2>
-      <p>Estamos en Villanueva de la Jara, en el corazón de la provincia de Cuenca. Escríbenos por el medio que prefieras.</p>
+<section id="contacto" data-screen-label="Contacto" style="padding:clamp(52px,8vw,96px) 0;">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div style="max-width:60ch; margin-bottom:40px;">
+      <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">estamos cerca</p>
+      <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Habla con nosotros</h2>
+      <p style="color:var(--ink-soft); font-size:1.1rem;">Estamos en Villanueva de la Jara, en el corazón de la provincia de Cuenca. Escríbenos por el medio que prefieras.</p>
     </div>
     <div class="contact-grid">
       <div>
-        <ul class="contact-list">
-          <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg></div>
-            <div>
-              <a href="tel:+34626296550">626 29 65 50</a>
-              <span>Teléfono y WhatsApp</span>
-            </div>
+        <ul style="list-style:none; margin:0 0 28px; padding:0;">
+          <li style="display:flex; align-items:center; gap:14px; padding:15px 0; border-bottom:1px solid var(--line);">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg></div>
+            <div><a href="tel:+34626296550" style="text-decoration:none; font-weight:700; color:var(--ink);">626 29 65 50</a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Teléfono y WhatsApp</span></div>
           </li>
-          <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div>
-            <div>
-              <a href="mailto:rovameproteccionanimal@gmail.com">rovameproteccionanimal@gmail.com</a>
-              <span>Correo electrónico</span>
-            </div>
+          <li style="display:flex; align-items:center; gap:14px; padding:15px 0; border-bottom:1px solid var(--line);">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div>
+            <div><a href="/cdn-cgi/l/email-protection#96e4f9e0f7fbf3e6e4f9e2f3f5f5fff9f8f7f8fffbf7fad6f1fbf7fffab8f5f9fb" style="text-decoration:none; font-weight:700; color:var(--ink); word-break:break-all;"><span class="__cf_email__" data-cfemail="691b061f08040c191b061d0c0a0a000607080700040805290e04080005470a0604">[email&#160;protected]</span></a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Correo electrónico</span></div>
           </li>
-          <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <div>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=Villanueva+de+la+Jara%2C+16230%2C+Cuenca%2C+Espa%C3%B1a" target="_blank" rel="noopener">Villanueva de la Jara, 16230, Cuenca</a>
-              <span>España · Cómo llegar</span>
-            </div>
+          <li style="display:flex; align-items:center; gap:14px; padding:15px 0; border-bottom:1px solid var(--line);">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><a href="https://www.google.com/maps/dir/?api=1&destination=Villanueva+de+la+Jara%2C+16230%2C+Cuenca%2C+Espa%C3%B1a" target="_blank" rel="noopener" style="text-decoration:none; font-weight:700; color:var(--ink);">Villanueva de la Jara, 16230, Cuenca</a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">España · Cómo llegar</span></div>
           </li>
-          <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg></div>
-            <div>
-              <a href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener">Rovame Protección Animal</a>
-              <span>Síguenos en Facebook</span>
-            </div>
-          </li>
-          <li>
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg></div>
-            <div>
-              <a href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener">@rovamelajara</a>
-              <span>Síguenos en Instagram</span>
-            </div>
+          <li style="display:flex; align-items:center; gap:14px; padding:15px 0;">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg></div>
+            <div><a href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener" style="text-decoration:none; font-weight:700; color:var(--ink);">@rovamelajara</a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Síguenos en Instagram</span></div>
           </li>
         </ul>
-        <a href="https://wa.me/34626296550?text=Hola%20Rovame" target="_blank" rel="noopener" class="btn btn-primary">Escríbenos por WhatsApp</a>
+        <a href="{{ waGeneral }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:9px; height:52px; padding:0 28px; border-radius:13px; background:var(--clay); color:#fff; text-decoration:none; font-weight:700; font-size:1rem; box-shadow:0 8px 20px rgba(174,78,51,0.3); transition:background .2s,transform .15s;" style-hover="background:var(--clay-dark); transform:translateY(-2px);">Escríbenos por WhatsApp</a>
       </div>
-      <div class="map-frame">
-        <iframe title="Mapa de Villanueva de la Jara, Cuenca" src="https://www.google.com/maps?q=Villanueva%20de%20la%20Jara%2C%2016230%2C%20Cuenca&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div style="width:100%; height:100%; min-height:360px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow);">
+        <iframe title="Mapa de Villanueva de la Jara, Cuenca" src="https://www.google.com/maps?q=Villanueva%20de%20la%20Jara%2C%2016230%2C%20Cuenca&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%; height:100%; min-height:360px; border:0; filter:sepia(12%) saturate(92%);"></iframe>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <div class="footer-logo">Rovame</div>
-      <ul class="footer-links">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#adopta">Adopta</a></li>
-        <li><a href="#historias">Historias</a></li>
-        <li><a href="#ayudar">Cómo ayudar</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+<footer style="background:var(--olive-dark); color:#EFE9D6; padding:52px 0 30px;">
+  <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; margin-bottom:30px;">
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <span style="font-family:'Newsreader',serif; font-weight:600; font-size:1.45rem;">Rovame</span>
+        <span class="hand" style="font-size:1.25rem; color:var(--gold);">gracias por estar aquí</span>
+      </div>
+      <ul style="display:flex; gap:24px; list-style:none; padding:0; margin:0; font-size:0.92rem; flex-wrap:wrap;">
+        <li><a href="#labor" style="text-decoration:none; color:#D9D2B7;" style-hover="color:#fff;">Nuestra labor</a></li>
+        <li><a href="#adopta" style="text-decoration:none; color:#D9D2B7;" style-hover="color:#fff;">Adopta</a></li>
+        <li><a href="#historias" style="text-decoration:none; color:#D9D2B7;" style-hover="color:#fff;">Historias</a></li>
+        <li><a href="#ayudar" style="text-decoration:none; color:#D9D2B7;" style-hover="color:#fff;">Cómo ayudar</a></li>
+        <li><a href="#contacto" style="text-decoration:none; color:#D9D2B7;" style-hover="color:#fff;">Contacto</a></li>
       </ul>
     </div>
-    <div class="footer-bottom">
+    <div style="border-top:1px solid rgba(255,255,255,0.14); padding-top:22px; font-size:0.8rem; color:#B9B294; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
       <span>© 2026 Rovame · Protección Animal · Villanueva de la Jara, Cuenca</span>
-      <span>Hecho con cariño para los que aún esperan un hogar 🐾</span>
+      <span>Hecho con cariño para los que aún esperan un hogar</span>
     </div>
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/34626296550?text=Hola%20Rovame" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
+<a class="wa-float" href="{{ waGeneral }}" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" style="position:fixed; bottom:24px; right:24px; z-index:60; width:60px; height:60px; border-radius:50%; background:#3d7a4f; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,0.28); text-decoration:none; animation:wa-pulse 2.6s ease-in-out infinite;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
 </a>
+</x-dc>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;showFacebookFeed&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},&quot;showSuccessStories&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},&quot;loadFromCMS&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Datos&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, copied: null, animals: null, stories: null };
 
-<script>
-  // ===================== INTEGRACIÓN CON SANITY.IO =====================
-  const SANITY_PROJECT_ID = 'y8ggg0i9';
-  const SANITY_DATASET = 'production';
-  const SANITY_API_VERSION = '2024-01-01';
+  sampleAnimals = [
+    { nombre:'Luna', numeroFicha:'14', raza:'Mestiza', edad:'~3 años', caracteristicas:['Cariñosa','Buena con niños'] },
+    { nombre:'Toby', numeroFicha:'22', raza:'Podenco', edad:'~2 años', caracteristicas:['Juguetón','Sociable'] },
+    { nombre:'Canela', numeroFicha:'31', raza:'Gata europea', edad:'~1 año', caracteristicas:['Independiente','Dulce'] },
+    { nombre:'Nube', numeroFicha:'37', raza:'Mestiza', edad:'~5 años', caracteristicas:['Tranquila','Ideal piso'] },
+    { nombre:'Rocco', numeroFicha:'41', raza:'Cruce de mastín', edad:'~4 años', caracteristicas:['Protector','Necesita espacio'] },
+    { nombre:'Pipa', numeroFicha:'48', raza:'Gata negra', edad:'~8 meses', caracteristicas:['Curiosa','Muy mimosa'] },
+  ];
+  sampleStories = [
+    { nombreAnimal:'Colín', familiaAdoptante:'Adoptado por la familia Martínez', testimonio:'Llegó asustado y desconfiado. Hoy nos recibe en la puerta cada tarde como si lleváramos toda la vida juntos.' },
+    { nombreAnimal:'Duna', familiaAdoptante:'Adoptada por Marta, Casasimarro', testimonio:'Buscábamos compañía para nuestro perro mayor. Duna le devolvió las ganas de jugar a los dos.' },
+    { nombreAnimal:'Bruno', familiaAdoptante:'Adoptado por la familia Sánchez', testimonio:'Nos dijeron que sería un perro tranquilo para el pueblo. Se quedaron cortos: es la alegría de toda la calle.' },
+  ];
 
-  async function sanityFetch(query) {
-    const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Sanity respondió con error ' + res.status);
-    const json = await res.json();
-    return json.result || [];
+  wa(nombre){
+    const t = encodeURIComponent(nombre ? `Hola Rovame, me interesa ${nombre}` : 'Hola Rovame');
+    return `https://wa.me/34626296550?text=${t}`;
   }
 
-  function waLink(nombre){
-    const texto = encodeURIComponent(`Hola Rovame, me interesa ${nombre}`);
-    return `https://wa.me/34626296550?text=${texto}`;
+  buildAnimals(list){
+    return list.map(a => ({
+      nombre: a.nombre,
+      ficha: a.numeroFicha ? `Ficha nº ${a.numeroFicha}` : '',
+      meta: [a.raza, a.edad].filter(Boolean).join(' · '),
+      traits: (a.caracteristicas || []).slice(0,3),
+      waHref: this.wa(a.nombre),
+      photoUrl: a.fotoUrl ? `${a.fotoUrl}?w=640&h=800&fit=crop` : null,
+      noPhoto: !a.fotoUrl,
+      photoNode: a.fotoUrl ? React.createElement('img', { src: `${a.fotoUrl}?w=300&h=300&fit=crop`, alt: a.nombre, style: { width:'100%', height:'100%', objectFit:'cover', display:'block' } }) : null,
+    }));
+  }
+  buildStories(list){
+    return list.map(s => ({
+      nombre: s.nombreAnimal || '',
+      sub: s.familiaAdoptante || '',
+      quote: s.testimonio || '',
+      photoUrl: s.fotoUrl ? `${s.fotoUrl}?w=120&h=120&fit=crop` : null,
+      initial: (s.nombreAnimal || '?').charAt(0).toUpperCase(),
+      noPhoto: !s.fotoUrl,
+      photoNode: s.fotoUrl ? React.createElement('img', { src: `${s.fotoUrl}?w=120&h=120&fit=crop`, alt: s.nombreAnimal || '', style: { width:'52px', height:'52px', borderRadius:'50%', objectFit:'cover', flexShrink:0 } }) : null,
+    }));
   }
 
-  function renderAnimalCard(a){
-    const avatar = a.fotoUrl
-      ? `<img src="${a.fotoUrl}?w=168&h=168&fit=crop" alt="${a.nombre}">`
-      : `<svg viewBox="0 0 60 60" fill="none"><path d="M8 34c0-14 10-24 22-24s22 10 22 24-10 20-22 20-22-6-22-20Z" fill="#A8503A"/><circle cx="21" cy="20" r="4" fill="#4F5A3A"/><circle cx="39" cy="20" r="4" fill="#4F5A3A"/><path d="M24 40q6 5 12 0" stroke="#2B2820" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
-    const meta = [a.raza, a.edad].filter(Boolean).join(' · ');
-    const traits = (a.caracteristicas || []).slice(0, 3)
-      .map(t => `<span class="trait">${t}</span>`).join('');
-    const ficha = a.numeroFicha ? `FICHA Nº ${a.numeroFicha}` : '&nbsp;';
-    return `
-      <div class="kennel-tag">
-        <div class="tag-hole"></div>
-        <p class="tag-id mono">${ficha}</p>
-        <div class="tag-avatar">${avatar}</div>
-        <h3>${a.nombre}</h3>
-        <p class="tag-meta">${meta}</p>
-        <div class="tag-traits">${traits}</div>
-        <div class="tag-cta">
-          <a href="${waLink(a.nombre)}" target="_blank" rel="noopener">Pregunta por ${a.nombre} →</a>
-        </div>
-      </div>`;
+  componentDidMount(){
+    if (this.props.loadFromCMS ?? true) this.loadSanity();
   }
 
-  function renderStoryCard(s){
-    const avatar = s.fotoUrl
-      ? `<img src="${s.fotoUrl}?w=96&h=96&fit=crop" alt="${s.nombreAnimal}">`
-      : (s.nombreAnimal || '?').charAt(0).toUpperCase();
-    return `
-      <div class="story-card">
-        <div class="story-top">
-          <div class="story-avatar">${avatar}</div>
-          <div>
-            <p class="story-name">${s.nombreAnimal}</p>
-            <p class="story-sub">${s.familiaAdoptante || ''}</p>
-          </div>
-        </div>
-        <p class="story-quote">${s.testimonio}</p>
-      </div>`;
-  }
-
-  async function loadAnimals(){
+  async loadSanity(){
+    const PID='y8ggg0i9', DS='production', V='2024-01-01';
+    const q = async (query) => {
+      const url = `https://${PID}.api.sanity.io/v${V}/data/query/${DS}?query=${encodeURIComponent(query)}`;
+      const r = await fetch(url); if(!r.ok) throw new Error('Sanity '+r.status);
+      const j = await r.json(); return j.result || [];
+    };
     try{
-      const query = `*[_type == "animal" && disponible == true] | order(orden asc){
-        nombre, numeroFicha, raza, edad, caracteristicas, "fotoUrl": foto.asset->url
-      }`;
-      const animales = await sanityFetch(query);
-      if(animales.length){
-        document.getElementById('tagGrid').innerHTML = animales.map(renderAnimalCard).join('');
-        const note = document.getElementById('animalsNote');
-        if(note) note.style.display = 'none';
-      }
-    }catch(err){
-      console.warn('No se pudieron cargar los animales desde Sanity, se mantienen los de ejemplo.', err);
-    }
-  }
-
-  async function loadStories(){
+      const animales = await q(`*[_type=="animal" && disponible==true]|order(orden asc){nombre,numeroFicha,raza,edad,caracteristicas,"fotoUrl":foto.asset->url}`);
+      if(animales.length) this.setState({ animals: this.buildAnimals(animales) });
+    }catch(e){ console.warn('No se pudieron cargar los animales desde Sanity, se mantienen los de ejemplo.', e); }
     try{
-      const query = `*[_type == "historiaExito" && destacado == true] | order(fecha desc){
-        nombreAnimal, familiaAdoptante, testimonio, "fotoUrl": foto.asset->url
-      }`;
-      const historias = await sanityFetch(query);
-      if(historias.length){
-        document.getElementById('storyGrid').innerHTML = historias.map(renderStoryCard).join('');
-        const note = document.getElementById('storiesNote');
-        if(note) note.style.display = 'none';
-      }
-    }catch(err){
-      console.warn('No se pudieron cargar las historias desde Sanity, se mantienen las de ejemplo.', err);
-    }
+      const historias = await q(`*[_type=="historiaExito" && destacado==true]|order(fecha desc){nombreAnimal,familiaAdoptante,testimonio,"fotoUrl":foto.asset->url}`);
+      if(historias.length) this.setState({ stories: this.buildStories(historias) });
+    }catch(e){ console.warn('No se pudieron cargar las historias desde Sanity, se mantienen las de ejemplo.', e); }
   }
 
-  loadAnimals();
-  loadStories();
-  // =================== FIN INTEGRACIÓN CON SANITY.IO ===================
-</script>
+  copy(field, value){
+    try{ navigator.clipboard && navigator.clipboard.writeText(value); }catch(e){}
+    this.setState({ copied: field });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ copied: null }), 1600);
+  }
 
-<script>
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  renderVals(){
+    return {
+      animals: this.state.animals || this.buildAnimals(this.sampleAnimals),
+      stories: this.state.stories || this.buildStories(this.sampleStories),
+      menuOpen: this.state.menuOpen ? 'true' : 'false',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      waGeneral: this.wa(),
+      copyBizum: () => this.copy('bizum', '626 29 65 50'),
+      copyIban: () => this.copy('iban', 'ES79 2103 7782 4700 3000 4262'),
+      bizumLabel: this.state.copied === 'bizum' ? '¡Copiado!' : 'Copiar',
+      ibanLabel: this.state.copied === 'iban' ? '¡Copiado!' : 'Copiar',
+      showFacebook: this.props.showFacebookFeed ?? true,
+      showStories: this.props.showSuccessStories ?? true,
+    };
+  }
+}
 </script>
-
 </body>
 </html>

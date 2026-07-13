@@ -486,10 +486,15 @@
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const trail = document.getElementById('paw-trail');
-    const PAW_SVG = '<svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><ellipse cx="32" cy="44" rx="13" ry="11"/><circle cx="17" cy="26" r="6.5"/><circle cx="32" cy="17" r="6.5"/><circle cx="47" cy="26" r="6.5"/><circle cx="41" cy="36" r="5"/></svg>';
-    const MIN_DIST = 38;
+    const MIN_DIST = 56;
     const MAX_PRINTS = 80;
+    let pawSvg = '';
     let lastX = null, lastY = null, lastSide = 'right', pending = false, latest = null;
+
+    fetch('assets/dog-paw-svgrepo-com.svg')
+      .then(r => r.text())
+      .then(svg => { pawSvg = svg; })
+      .catch(() => {});
 
     function isBackground(x, y){
       const blocked = document.elementFromPoint(x, y);
@@ -501,7 +506,7 @@
     }
 
     function spawnPaw(x, y, angle){
-      if(!isBackground(x, y)) return;
+      if(!pawSvg || !isBackground(x, y)) return;
 
       lastSide = lastSide === 'left' ? 'right' : 'left';
       const offset = lastSide === 'left' ? -9 : 9;
@@ -514,7 +519,7 @@
       paw.style.left = px + 'px';
       paw.style.top = py + 'px';
       paw.style.transform = 'translate(-50%,-50%) rotate(' + (angle * 180 / Math.PI + 90) + 'deg)';
-      paw.innerHTML = PAW_SVG;
+      paw.innerHTML = pawSvg;
       trail.appendChild(paw);
 
       while(trail.children.length > MAX_PRINTS){

@@ -29,6 +29,13 @@
     font-family:'Mulish',system-ui,sans-serif; line-height:1.66;
     -webkit-font-smoothing:antialiased; font-size:17px;
   }
+  body > *:not(#paw-trail){ position:relative; z-index:1; }
+  .section-alt{ background:transparent !important; isolation:isolate; }
+  .section-alt::before{
+    content:''; position:absolute; inset:0; z-index:0;
+    background:var(--paper-alt);
+  }
+  .section-alt > *{ position:relative; z-index:1; }
   h1,h2,h3{ font-family:'Newsreader',Georgia,serif; font-weight:600; margin:0; letter-spacing:-0.005em; line-height:1.1; }
   p{margin:0;}
   img{max-width:100%; display:block;}
@@ -79,7 +86,7 @@
     gap:26px;
     justify-content:start;
   }
-  .animal-card{ transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
+  .animal-card{ position:relative; z-index:2; transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
   .animal-card:nth-child(3n+1){ transform:rotate(-1.6deg); }
   .animal-card:nth-child(3n+2){ transform:rotate(1.1deg); }
   .animal-card:nth-child(3n+3){ transform:rotate(-0.7deg); }
@@ -89,11 +96,29 @@
     50%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 12px rgba(88,106,55,0); }
   }
   @media(prefers-reduced-motion:reduce){ .wa-float{ animation:none; } html{ scroll-behavior:auto; } }
+  #paw-trail{
+    position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;
+  }
+  .paw-print{
+    position:absolute; width:40px; height:40px;
+    color:var(--olive-dark); opacity:0;
+    animation:paw-fade 4s ease-out forwards;
+    will-change:opacity,transform;
+  }
+  .paw-print svg{ width:100%; height:100%; display:block; }
+  @keyframes paw-fade{
+    0%{ opacity:1; }
+    65%{ opacity:0.85; }
+    100%{ opacity:0; }
+  }
+  @media(prefers-reduced-motion:reduce){ #paw-trail{ display:none; } }
   ::selection{ background:var(--gold); color:var(--ink); }
   a:focus-visible,button:focus-visible{ outline:2.5px solid var(--clay); outline-offset:3px; border-radius:3px; }
 </style>
 </head>
 <body>
+
+<div id="paw-trail" aria-hidden="true"></div>
 
 <header class="nav-header">
   <div class="nav-inner">
@@ -144,7 +169,7 @@
   </div>
 </section>
 
-<section id="labor" data-screen-label="Nuestra labor" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+<section id="labor" class="section-alt" data-screen-label="Nuestra labor" style="padding:clamp(52px,8vw,96px) 0;">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div class="labor-inner" style="margin-bottom:clamp(38px,5vw,60px);">
       <div>
@@ -195,7 +220,7 @@
   </div>
 </section>
 
-<section id="historias" data-screen-label="Historias" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+<section id="historias" class="section-alt" data-screen-label="Historias" style="padding:clamp(52px,8vw,96px) 0;">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div style="max-width:60ch; margin-bottom:40px;">
       <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">finales felices</p>
@@ -225,7 +250,7 @@
   </div>
 </section>
 
-<section id="ayudar" data-screen-label="Cómo ayudar" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
+<section id="ayudar" class="section-alt" data-screen-label="Cómo ayudar" style="padding:clamp(52px,8vw,96px) 0;">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div style="max-width:62ch; margin-bottom:40px;">
       <p class="hand" style="font-size:1.6rem; color:var(--clay); font-weight:600; margin-bottom:2px; transform:rotate(-1.5deg); transform-origin:left;">echa una mano</p>
@@ -456,6 +481,77 @@
   }
   setupCopy('copyBizum', '626 29 65 50');
   setupCopy('copyIban', 'ES79 2103 7782 4700 3000 4262');
+
+  (function initPawTrail(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const trail = document.getElementById('paw-trail');
+    const PAW_SVG = '<svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><ellipse cx="32" cy="44" rx="13" ry="11"/><circle cx="17" cy="26" r="6.5"/><circle cx="32" cy="17" r="6.5"/><circle cx="47" cy="26" r="6.5"/><circle cx="41" cy="36" r="5"/></svg>';
+    const MIN_DIST = 32;
+    const MAX_PRINTS = 80;
+    let lastX = null, lastY = null, lastSide = 'right', pending = false, latest = null;
+
+    function isBackground(x, y){
+      const blocked = document.elementFromPoint(x, y);
+      if(!blocked || blocked.closest('#paw-trail')) return false;
+      if(blocked.closest('.nav-header, footer, .wa-float, .animal-card, iframe, video, button')) return false;
+      if(blocked.closest('a, input, textarea, select')) return false;
+      if(blocked.closest('[style*="background:var(--card)"], [style*="border:2px dashed"], [style*="border:1px dashed"]')) return false;
+      return true;
+    }
+
+    function spawnPaw(x, y, angle){
+      if(!isBackground(x, y)) return;
+
+      lastSide = lastSide === 'left' ? 'right' : 'left';
+      const offset = lastSide === 'left' ? -9 : 9;
+      const px = x + Math.cos(angle + Math.PI / 2) * offset;
+      const py = y + Math.sin(angle + Math.PI / 2) * offset;
+      if(!isBackground(px, py)) return;
+
+      const paw = document.createElement('div');
+      paw.className = 'paw-print';
+      paw.style.left = px + 'px';
+      paw.style.top = py + 'px';
+      paw.style.transform = 'translate(-50%,-50%) rotate(' + (angle * 180 / Math.PI + 90) + 'deg)';
+      paw.innerHTML = PAW_SVG;
+      trail.appendChild(paw);
+
+      while(trail.children.length > MAX_PRINTS){
+        trail.firstChild.remove();
+      }
+      paw.addEventListener('animationend', () => paw.remove(), { once:true });
+    }
+
+    function onMove(x, y){
+      if(lastX === null){
+        lastX = x; lastY = y;
+        return;
+      }
+      const dx = x - lastX, dy = y - lastY;
+      const dist = Math.hypot(dx, dy);
+      if(dist < MIN_DIST) return;
+
+      spawnPaw(x, y, Math.atan2(dy, dx));
+      lastX = x;
+      lastY = y;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      latest = { x: e.clientX, y: e.clientY };
+      if(pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        if(latest) onMove(latest.x, latest.y);
+        pending = false;
+      });
+    }, { passive:true });
+
+    document.addEventListener('mouseleave', () => {
+      lastX = null;
+      lastY = null;
+    });
+  })();
 })();
 </script>
 </body>

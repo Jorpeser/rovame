@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+<title>Rovame · Protección Animal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Mulish:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -79,7 +75,8 @@
   ::selection{ background:var(--gold); color:var(--ink); }
   a:focus-visible,button:focus-visible{ outline:2.5px solid var(--clay); outline-offset:3px; border-radius:3px; }
 </style>
-</helmet>
+</head>
+<body>
 
 <header class="nav-header">
   <div class="nav-inner">
@@ -87,13 +84,13 @@
       <svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#586A37" stroke-width="2" fill="#FCF8ED"/><path d="M13 22c0-4 3-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6Z" fill="#AE4E33"/><circle cx="16.5" cy="14" r="2.6" fill="#586A37"/><circle cx="23.5" cy="14" r="2.6" fill="#586A37"/></svg>
       <span style="font-family:'Newsreader',serif; font-weight:600; font-size:1.55rem; letter-spacing:-0.02em;">Rovame</span>
     </a>
-    <ul class="nav-links" data-open="{{ menuOpen }}">
-      <li><a href="#labor" onClick="{{ closeMenu }}">Nuestra labor</a></li>
-      <li><a href="#adopta" onClick="{{ closeMenu }}">Adopta</a></li>
-      <li><a href="#historias" onClick="{{ closeMenu }}">Historias</a></li>
-      <li><a href="#facebook" onClick="{{ closeMenu }}">Novedades</a></li>
-      <li><a href="#ayudar" onClick="{{ closeMenu }}">Cómo ayudar</a></li>
-      <li><a href="#contacto" onClick="{{ closeMenu }}">Contacto</a></li>
+    <ul class="nav-links" id="navLinks" data-open="false">
+      <li><a href="#labor">Nuestra labor</a></li>
+      <li><a href="#adopta">Adopta</a></li>
+      <li><a href="#historias">Historias</a></li>
+      <li><a href="#facebook">Novedades</a></li>
+      <li><a href="#ayudar">Cómo ayudar</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
     <div class="nav-right">
       <div class="nav-social">
@@ -102,7 +99,7 @@
         <a href="https://www.facebook.com/ROVAMEPROTECCIONANIMAL.ES/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg></a>
       </div>
       <a href="#adopta" style="display:inline-flex; align-items:center; height:44px; padding:0 20px; border-radius:12px; background:var(--olive); color:#fff; text-decoration:none; font-weight:700; font-size:0.96rem; box-shadow:0 6px 16px rgba(88,106,55,0.3); transition:background .2s,transform .2s;" style-hover="background:var(--olive-dark); transform:translateY(-1px);">Adopta</a>
-      <button class="nav-toggle" aria-label="Abrir menú" onClick="{{ toggleMenu }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
   </div>
 </header>
@@ -177,43 +174,10 @@
       <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Buscan un hogar</h2>
       <p style="color:var(--ink-soft); font-size:1.1rem;">Estos son algunos de los animales que esperan una familia. Pregunta por cualquiera de ellos por WhatsApp — te acompañamos en todo el proceso, sin prisas.</p>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:26px;">
-      <sc-for list="{{ animals }}" as="a" hint-placeholder-count="6">
-        <div class="animal-card" style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
-          <div style="background:var(--paper-alt); padding:15px 0 11px; display:flex; flex-direction:column; align-items:center; gap:7px; border-bottom:1px dashed var(--line-strong);">
-            <div style="width:15px; height:15px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong); box-shadow:inset 0 1px 2px rgba(44,39,23,0.28);"></div>
-            <span style="font-size:0.72rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);">{{ a.ficha }}</span>
-          </div>
-          <div style="padding:22px 22px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; flex:1;">
-            <div style="width:120px; height:120px; border-radius:50%; overflow:hidden; margin:0 auto 16px; background:var(--paper-alt); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-              <sc-if value="{{ a.photoUrl }}" hint-placeholder-val="{{ false }}">
-                {{ a.photoNode }}
-              </sc-if>
-              <sc-if value="{{ a.noPhoto }}" hint-placeholder-val="{{ true }}">
-                <div style="width:100%; height:100%; background:repeating-linear-gradient(135deg,var(--paper-alt),var(--paper-alt) 8px,#DFD3B7 8px,#DFD3B7 16px); display:flex; align-items:center; justify-content:center;">
-                  <span class="hand" style="font-size:1.15rem; color:var(--ink-soft);">foto</span>
-                </div>
-              </sc-if>
-            </div>
-            <h3 style="font-size:1.5rem; margin-bottom:2px;">{{ a.nombre }}</h3>
-            <p style="font-size:0.92rem; color:var(--ink-soft); margin-bottom:14px;">{{ a.meta }}</p>
-            <div style="display:flex; gap:7px; flex-wrap:wrap; justify-content:center; margin-bottom:18px;">
-              <sc-for list="{{ a.traits }}" as="t" hint-placeholder-count="2">
-                <span style="font-size:0.78rem; padding:5px 12px; border-radius:100px; background:var(--paper-alt); color:var(--olive-dark); font-weight:700;">{{ t }}</span>
-              </sc-for>
-            </div>
-            <a href="{{ a.waHref }}" target="_blank" rel="noopener" style="margin-top:auto; align-self:stretch; display:inline-flex; align-items:center; justify-content:center; gap:8px; height:47px; border-radius:12px; background:var(--olive); color:#fff; text-decoration:none; font-weight:700; font-size:0.94rem; transition:background .2s;" style-hover="background:var(--olive-dark);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5Z"/></svg>
-              Pregunta por {{ a.nombre }}
-            </a>
-          </div>
-        </div>
-      </sc-for>
-    </div>
+    <div id="animalsGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:26px;"></div>
   </div>
 </section>
 
-<sc-if value="{{ showStories }}" hint-placeholder-val="{{ true }}">
 <section id="historias" data-screen-label="Historias" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div style="max-width:60ch; margin-bottom:40px;">
@@ -221,30 +185,10 @@
       <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Ya encontraron su sitio</h2>
       <p style="color:var(--ink-soft); font-size:1.1rem;">Cada adopción es distinta, pero todas tienen algo en común: un animal que por fin encontró su hogar. Anímate a escribir la tuya.</p>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:24px;">
-      <sc-for list="{{ stories }}" as="s" hint-placeholder-count="3">
-        <div style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:28px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
-          <div style="display:flex; align-items:center; gap:13px; margin-bottom:18px;">
-            <sc-if value="{{ s.photoUrl }}" hint-placeholder-val="{{ false }}">
-              {{ s.photoNode }}
-            </sc-if>
-            <sc-if value="{{ s.noPhoto }}" hint-placeholder-val="{{ true }}">
-              <div style="width:52px; height:52px; border-radius:50%; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Newsreader',serif; font-weight:600; font-size:1.2rem; flex-shrink:0;">{{ s.initial }}</div>
-            </sc-if>
-            <div style="line-height:1.3;">
-              <p style="font-weight:800; font-size:1.08rem;">{{ s.nombre }}</p>
-              <p style="font-size:0.82rem; color:var(--ink-soft);">{{ s.sub }}</p>
-            </div>
-          </div>
-          <p style="font-family:'Newsreader',serif; font-style:italic; font-size:1.16rem; color:var(--ink); line-height:1.5;">“{{ s.quote }}”</p>
-        </div>
-      </sc-for>
-    </div>
+    <div id="storiesGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:24px;"></div>
   </div>
 </section>
-</sc-if>
 
-<sc-if value="{{ showFacebook }}" hint-placeholder-val="{{ true }}">
 <section id="facebook" data-screen-label="Novedades" style="padding:clamp(52px,8vw,96px) 0;">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
     <div class="fb-inner">
@@ -263,7 +207,6 @@
     </div>
   </div>
 </section>
-</sc-if>
 
 <section id="ayudar" data-screen-label="Cómo ayudar" style="padding:clamp(52px,8vw,96px) 0; background:var(--paper-alt);">
   <div style="max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,42px);">
@@ -295,11 +238,11 @@
         <div style="margin-top:4px; display:flex; flex-direction:column; gap:8px;">
           <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--paper-alt); border-radius:9px; padding:8px 10px 8px 13px;">
             <div><span style="font-size:0.7rem; color:var(--ink-soft); display:block; font-weight:700;">Bizum</span><span style="font-weight:700; font-size:0.98rem;">626 29 65 50</span></div>
-            <button onClick="{{ copyBizum }}" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">{{ bizumLabel }}</button>
+            <button id="copyBizum" type="button" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">Copiar</button>
           </div>
           <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--paper-alt); border-radius:9px; padding:8px 10px 8px 13px;">
             <div style="min-width:0;"><span style="font-size:0.7rem; color:var(--ink-soft); display:block; font-weight:700;">IBAN</span><span style="font-weight:700; font-size:0.82rem; word-break:break-all;">ES79 2103 7782 4700 3000 4262</span></div>
-            <button onClick="{{ copyIban }}" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">{{ ibanLabel }}</button>
+            <button id="copyIban" type="button" style="background:var(--card); border:1px solid var(--line); color:var(--olive-dark); font-family:'Mulish',sans-serif; font-size:0.74rem; font-weight:700; padding:6px 11px; border-radius:8px; cursor:pointer; white-space:nowrap;">Copiar</button>
           </div>
         </div>
       </div>
@@ -323,7 +266,7 @@
           </li>
           <li style="display:flex; align-items:center; gap:14px; padding:15px 0; border-bottom:1px solid var(--line);">
             <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div>
-            <div><a href="/cdn-cgi/l/email-protection#96e4f9e0f7fbf3e6e4f9e2f3f5f5fff9f8f7f8fffbf7fad6f1fbf7fffab8f5f9fb" style="text-decoration:none; font-weight:700; color:var(--ink); word-break:break-all;"><span class="__cf_email__" data-cfemail="691b061f08040c191b061d0c0a0a000607080700040805290e04080005470a0604">[email&#160;protected]</span></a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Correo electrónico</span></div>
+            <div><a href="mailto:rovameproteccionanimal@gmail.com" style="text-decoration:none; font-weight:700; color:var(--ink); word-break:break-all;">rovameproteccionanimal@gmail.com</a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Correo electrónico</span></div>
           </li>
           <li style="display:flex; align-items:center; gap:14px; padding:15px 0; border-bottom:1px solid var(--line);">
             <div style="width:40px; height:40px; border-radius:50%; background:var(--olive); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -334,7 +277,7 @@
             <div><a href="https://www.instagram.com/rovamelajara/" target="_blank" rel="noopener" style="text-decoration:none; font-weight:700; color:var(--ink);">@rovamelajara</a><span style="display:block; font-size:0.8rem; color:var(--ink-soft);">Síguenos en Instagram</span></div>
           </li>
         </ul>
-        <a href="{{ waGeneral }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:9px; height:52px; padding:0 28px; border-radius:13px; background:var(--clay); color:#fff; text-decoration:none; font-weight:700; font-size:1rem; box-shadow:0 8px 20px rgba(174,78,51,0.3); transition:background .2s,transform .15s;" style-hover="background:var(--clay-dark); transform:translateY(-2px);">Escríbenos por WhatsApp</a>
+        <a href="https://wa.me/34626296550?text=Hola%20Rovame" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:9px; height:52px; padding:0 28px; border-radius:13px; background:var(--clay); color:#fff; text-decoration:none; font-weight:700; font-size:1rem; box-shadow:0 8px 20px rgba(174,78,51,0.3); transition:background .2s,transform .15s;" style-hover="background:var(--clay-dark); transform:translateY(-2px);">Escríbenos por WhatsApp</a>
       </div>
       <div style="width:100%; height:100%; min-height:360px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow);">
         <iframe title="Mapa de Villanueva de la Jara, Cuenca" src="https://www.google.com/maps?q=Villanueva%20de%20la%20Jara%2C%2016230%2C%20Cuenca&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%; height:100%; min-height:360px; border:0; filter:sepia(12%) saturate(92%);"></iframe>
@@ -365,15 +308,80 @@
   </div>
 </footer>
 
-<a class="wa-float" href="{{ waGeneral }}" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" style="position:fixed; bottom:24px; right:24px; z-index:60; width:60px; height:60px; border-radius:50%; background:#3d7a4f; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,0.28); text-decoration:none; animation:wa-pulse 2.6s ease-in-out infinite;">
+<a class="wa-float" href="https://wa.me/34626296550?text=Hola%20Rovame" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" style="position:fixed; bottom:24px; right:24px; z-index:60; width:60px; height:60px; border-radius:50%; background:#3d7a4f; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,0.28); text-decoration:none; animation:wa-pulse 2.6s ease-in-out infinite;">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/></svg>
 </a>
-</x-dc>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;showFacebookFeed&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},&quot;showSuccessStories&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},&quot;loadFromCMS&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Datos&quot;}}">
-class Component extends DCLogic {
-  state = { menuOpen: false, copied: null, animals: null, stories: null };
 
-  sampleAnimals = [
+<script>
+(function(){
+  const SANITY_PROJECT_ID = 'y8ggg0i9';
+  const SANITY_DATASET = 'production';
+  const SANITY_API_VERSION = '2024-01-01';
+
+  function esc(s){
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function waLink(nombre){
+    const t = encodeURIComponent(nombre ? `Hola Rovame, me interesa ${nombre}` : 'Hola Rovame');
+    return `https://wa.me/34626296550?text=${t}`;
+  }
+
+  async function sanityFetch(query){
+    const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('Sanity '+res.status);
+    const json = await res.json();
+    return json.result || [];
+  }
+
+  function renderAnimalCard(a){
+    const ficha = a.numeroFicha ? `Ficha nº ${esc(a.numeroFicha)}` : '';
+    const meta = [a.raza, a.edad].filter(Boolean).map(esc).join(' · ');
+    const traits = (a.caracteristicas || []).slice(0, 3)
+      .map(t => `<span style="font-size:0.78rem; padding:5px 12px; border-radius:100px; background:var(--paper-alt); color:var(--olive-dark); font-weight:700;">${esc(t)}</span>`)
+      .join('');
+    const photo = a.fotoUrl
+      ? `<img src="${esc(a.fotoUrl)}?w=300&h=300&fit=crop" alt="${esc(a.nombre)}" style="width:100%; height:100%; object-fit:cover; display:block;">`
+      : `<div style="width:100%; height:100%; background:repeating-linear-gradient(135deg,var(--paper-alt),var(--paper-alt) 8px,#DFD3B7 8px,#DFD3B7 16px); display:flex; align-items:center; justify-content:center;"><span class="hand" style="font-size:1.15rem; color:var(--ink-soft);">foto</span></div>`;
+    return `
+      <div class="animal-card" style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
+        <div style="background:var(--paper-alt); padding:15px 0 11px; display:flex; flex-direction:column; align-items:center; gap:7px; border-bottom:1px dashed var(--line-strong);">
+          <div style="width:15px; height:15px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong); box-shadow:inset 0 1px 2px rgba(44,39,23,0.28);"></div>
+          <span style="font-size:0.72rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);">${ficha}</span>
+        </div>
+        <div style="padding:22px 22px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; flex:1;">
+          <div style="width:120px; height:120px; border-radius:50%; overflow:hidden; margin:0 auto 16px; background:var(--paper-alt); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0;">${photo}</div>
+          <h3 style="font-size:1.5rem; margin-bottom:2px;">${esc(a.nombre)}</h3>
+          <p style="font-size:0.92rem; color:var(--ink-soft); margin-bottom:14px;">${meta}</p>
+          <div style="display:flex; gap:7px; flex-wrap:wrap; justify-content:center; margin-bottom:18px;">${traits}</div>
+          <a href="${waLink(a.nombre)}" target="_blank" rel="noopener" style="margin-top:auto; align-self:stretch; display:inline-flex; align-items:center; justify-content:center; gap:8px; height:47px; border-radius:12px; background:var(--olive); color:#fff; text-decoration:none; font-weight:700; font-size:0.94rem; transition:background .2s;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.9 15 3.4 13.6 3.4 12 3.4 7.3 7.3 3.4 12 3.4S20.6 7.3 20.6 12 16.7 20.2 12 20.2Z"/><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5Z"/></svg>
+            Pregunta por ${esc(a.nombre)}
+          </a>
+        </div>
+      </div>`;
+  }
+
+  function renderStoryCard(s){
+    const initial = esc((s.nombreAnimal || '?').charAt(0).toUpperCase());
+    const avatar = s.fotoUrl
+      ? `<img src="${esc(s.fotoUrl)}?w=120&h=120&fit=crop" alt="${esc(s.nombreAnimal)}" style="width:52px; height:52px; border-radius:50%; object-fit:cover; flex-shrink:0;">`
+      : `<div style="width:52px; height:52px; border-radius:50%; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Newsreader',serif; font-weight:600; font-size:1.2rem; flex-shrink:0;">${initial}</div>`;
+    return `
+      <div style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:28px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:13px; margin-bottom:18px;">
+          ${avatar}
+          <div style="line-height:1.3;">
+            <p style="font-weight:800; font-size:1.08rem;">${esc(s.nombreAnimal)}</p>
+            <p style="font-size:0.82rem; color:var(--ink-soft);">${esc(s.familiaAdoptante || '')}</p>
+          </div>
+        </div>
+        <p style="font-family:'Newsreader',serif; font-style:italic; font-size:1.16rem; color:var(--ink); line-height:1.5;">“${esc(s.testimonio)}”</p>
+      </div>`;
+  }
+
+  const sampleAnimals = [
     { nombre:'Luna', numeroFicha:'14', raza:'Mestiza', edad:'~3 años', caracteristicas:['Cariñosa','Buena con niños'] },
     { nombre:'Toby', numeroFicha:'22', raza:'Podenco', edad:'~2 años', caracteristicas:['Juguetón','Sociable'] },
     { nombre:'Canela', numeroFicha:'31', raza:'Gata europea', edad:'~1 año', caracteristicas:['Independiente','Dulce'] },
@@ -381,86 +389,57 @@ class Component extends DCLogic {
     { nombre:'Rocco', numeroFicha:'41', raza:'Cruce de mastín', edad:'~4 años', caracteristicas:['Protector','Necesita espacio'] },
     { nombre:'Pipa', numeroFicha:'48', raza:'Gata negra', edad:'~8 meses', caracteristicas:['Curiosa','Muy mimosa'] },
   ];
-  sampleStories = [
+  const sampleStories = [
     { nombreAnimal:'Colín', familiaAdoptante:'Adoptado por la familia Martínez', testimonio:'Llegó asustado y desconfiado. Hoy nos recibe en la puerta cada tarde como si lleváramos toda la vida juntos.' },
     { nombreAnimal:'Duna', familiaAdoptante:'Adoptada por Marta, Casasimarro', testimonio:'Buscábamos compañía para nuestro perro mayor. Duna le devolvió las ganas de jugar a los dos.' },
     { nombreAnimal:'Bruno', familiaAdoptante:'Adoptado por la familia Sánchez', testimonio:'Nos dijeron que sería un perro tranquilo para el pueblo. Se quedaron cortos: es la alegría de toda la calle.' },
   ];
 
-  wa(nombre){
-    const t = encodeURIComponent(nombre ? `Hola Rovame, me interesa ${nombre}` : 'Hola Rovame');
-    return `https://wa.me/34626296550?text=${t}`;
-  }
+  const animalsGrid = document.getElementById('animalsGrid');
+  const storiesGrid = document.getElementById('storiesGrid');
+  animalsGrid.innerHTML = sampleAnimals.map(renderAnimalCard).join('');
+  storiesGrid.innerHTML = sampleStories.map(renderStoryCard).join('');
 
-  buildAnimals(list){
-    return list.map(a => ({
-      nombre: a.nombre,
-      ficha: a.numeroFicha ? `Ficha nº ${a.numeroFicha}` : '',
-      meta: [a.raza, a.edad].filter(Boolean).join(' · '),
-      traits: (a.caracteristicas || []).slice(0,3),
-      waHref: this.wa(a.nombre),
-      photoUrl: a.fotoUrl ? `${a.fotoUrl}?w=640&h=800&fit=crop` : null,
-      noPhoto: !a.fotoUrl,
-      photoNode: a.fotoUrl ? React.createElement('img', { src: `${a.fotoUrl}?w=300&h=300&fit=crop`, alt: a.nombre, style: { width:'100%', height:'100%', objectFit:'cover', display:'block' } }) : null,
-    }));
-  }
-  buildStories(list){
-    return list.map(s => ({
-      nombre: s.nombreAnimal || '',
-      sub: s.familiaAdoptante || '',
-      quote: s.testimonio || '',
-      photoUrl: s.fotoUrl ? `${s.fotoUrl}?w=120&h=120&fit=crop` : null,
-      initial: (s.nombreAnimal || '?').charAt(0).toUpperCase(),
-      noPhoto: !s.fotoUrl,
-      photoNode: s.fotoUrl ? React.createElement('img', { src: `${s.fotoUrl}?w=120&h=120&fit=crop`, alt: s.nombreAnimal || '', style: { width:'52px', height:'52px', borderRadius:'50%', objectFit:'cover', flexShrink:0 } }) : null,
-    }));
-  }
-
-  componentDidMount(){
-    if (this.props.loadFromCMS ?? true) this.loadSanity();
-  }
-
-  async loadSanity(){
-    const PID='y8ggg0i9', DS='production', V='2024-01-01';
-    const q = async (query) => {
-      const url = `https://${PID}.api.sanity.io/v${V}/data/query/${DS}?query=${encodeURIComponent(query)}`;
-      const r = await fetch(url); if(!r.ok) throw new Error('Sanity '+r.status);
-      const j = await r.json(); return j.result || [];
-    };
+  async function loadAnimals(){
     try{
-      const animales = await q(`*[_type=="animal" && disponible==true]|order(orden asc){nombre,numeroFicha,raza,edad,caracteristicas,"fotoUrl":foto.asset->url}`);
-      if(animales.length) this.setState({ animals: this.buildAnimals(animales) });
+      const animales = await sanityFetch(`*[_type=="animal" && disponible==true]|order(orden asc){nombre,numeroFicha,raza,edad,caracteristicas,"fotoUrl":foto.asset->url}`);
+      if(animales.length) animalsGrid.innerHTML = animales.map(renderAnimalCard).join('');
     }catch(e){ console.warn('No se pudieron cargar los animales desde Sanity, se mantienen los de ejemplo.', e); }
+  }
+
+  async function loadStories(){
     try{
-      const historias = await q(`*[_type=="historiaExito" && destacado==true]|order(fecha desc){nombreAnimal,familiaAdoptante,testimonio,"fotoUrl":foto.asset->url}`);
-      if(historias.length) this.setState({ stories: this.buildStories(historias) });
+      const historias = await sanityFetch(`*[_type=="historiaExito" && destacado==true]|order(fecha desc){nombreAnimal,familiaAdoptante,testimonio,"fotoUrl":foto.asset->url}`);
+      if(historias.length) storiesGrid.innerHTML = historias.map(renderStoryCard).join('');
     }catch(e){ console.warn('No se pudieron cargar las historias desde Sanity, se mantienen las de ejemplo.', e); }
   }
 
-  copy(field, value){
-    try{ navigator.clipboard && navigator.clipboard.writeText(value); }catch(e){}
-    this.setState({ copied: field });
-    clearTimeout(this._t);
-    this._t = setTimeout(() => this.setState({ copied: null }), 1600);
-  }
+  loadAnimals();
+  loadStories();
 
-  renderVals(){
-    return {
-      animals: this.state.animals || this.buildAnimals(this.sampleAnimals),
-      stories: this.state.stories || this.buildStories(this.sampleStories),
-      menuOpen: this.state.menuOpen ? 'true' : 'false',
-      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
-      closeMenu: () => this.setState({ menuOpen: false }),
-      waGeneral: this.wa(),
-      copyBizum: () => this.copy('bizum', '626 29 65 50'),
-      copyIban: () => this.copy('iban', 'ES79 2103 7782 4700 3000 4262'),
-      bizumLabel: this.state.copied === 'bizum' ? '¡Copiado!' : 'Copiar',
-      ibanLabel: this.state.copied === 'iban' ? '¡Copiado!' : 'Copiar',
-      showFacebook: this.props.showFacebookFeed ?? true,
-      showStories: this.props.showSuccessStories ?? true,
-    };
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.dataset.open = navLinks.dataset.open === 'true' ? 'false' : 'true';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.dataset.open = 'false';
+  }));
+
+  function setupCopy(btnId, text){
+    const btn = document.getElementById(btnId);
+    if(!btn) return;
+    const label = btn.textContent;
+    btn.addEventListener('click', () => {
+      try{ navigator.clipboard && navigator.clipboard.writeText(text); }catch(e){}
+      btn.textContent = '¡Copiado!';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => { btn.textContent = label; }, 1600);
+    });
   }
-}
+  setupCopy('copyBizum', '626 29 65 50');
+  setupCopy('copyIban', 'ES79 2103 7782 4700 3000 4262');
+})();
 </script>
 </body>
 </html>

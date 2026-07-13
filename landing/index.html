@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rovame · Protección Animal</title>
+<link rel="icon" href="assets/logorovame.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Mulish:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +30,7 @@
     font-family:'Mulish',system-ui,sans-serif; line-height:1.66;
     -webkit-font-smoothing:antialiased; font-size:17px;
   }
-  body > *:not(#paw-trail){ position:relative; z-index:1; }
+  body > *:not(#paw-trail, .nav-header){ position:relative; z-index:1; }
   .section-alt{ background:transparent !important; isolation:isolate; }
   .section-alt::before{
     content:''; position:absolute; inset:0; z-index:0;
@@ -43,26 +44,70 @@
   a{ color:var(--clay-dark); }
   a:hover{ color:var(--clay); }
 
-  .nav-header{ position:sticky; top:0; z-index:50; background:rgba(244,238,223,0.92); backdrop-filter:blur(9px); border-bottom:1px solid var(--line); }
-  .nav-inner{ max-width:1180px; margin:0 auto; padding:14px clamp(18px,4vw,42px); display:flex; align-items:center; gap:22px; justify-content:space-between; }
-  .nav-links{ display:flex; gap:clamp(15px,2vw,28px); list-style:none; margin:0; padding:0; font-size:1rem; font-weight:600; }
+  .nav-header{
+    position:sticky; top:0; z-index:50;
+    --nav-pad-y:22px;
+    --nav-logo-h:44px;
+    --nav-brand-size:1.85rem;
+    --nav-link-size:1.06rem;
+    --nav-social-size:44px;
+    --nav-social-icon:20px;
+    --nav-cta-h:48px;
+    --nav-bg:rgba(244,238,223,0.98);
+    background:var(--nav-bg);
+    backdrop-filter:blur(9px);
+    border-bottom:1px solid transparent;
+    transition:background .35s ease,border-color .35s ease;
+  }
+  .nav-header.is-scrolled{
+    --nav-pad-y:14px;
+    --nav-logo-h:34px;
+    --nav-brand-size:1.55rem;
+    --nav-link-size:1rem;
+    --nav-social-size:40px;
+    --nav-social-icon:18px;
+    --nav-cta-h:44px;
+    --nav-bg:rgba(244,238,223,0.78);
+    border-bottom-color:var(--line);
+  }
+  .nav-inner{
+    max-width:1180px; margin:0 auto;
+    padding:var(--nav-pad-y) clamp(18px,4vw,42px);
+    display:flex; align-items:center; gap:22px; justify-content:space-between;
+    transition:padding .35s ease;
+  }
+  .nav-brand-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); }
+  .nav-brand{
+    font-family:'Newsreader',serif; font-weight:600;
+    font-size:var(--nav-brand-size); letter-spacing:-0.02em;
+    transition:font-size .35s ease;
+  }
+  .nav-logo{ height:var(--nav-logo-h); width:auto; display:block; flex-shrink:0; transition:height .35s ease; }
+  .nav-links{ display:flex; gap:clamp(15px,2vw,28px); list-style:none; margin:0; padding:0; font-size:var(--nav-link-size); font-weight:600; transition:font-size .35s ease; }
   .nav-links a{ text-decoration:none; color:var(--ink-soft); padding-bottom:3px; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
   .nav-links a:hover{ color:var(--olive-dark); border-color:var(--clay); }
   .nav-right{ display:flex; align-items:center; gap:12px; }
   .nav-social{ display:flex; gap:8px; }
-  .nav-social a{ width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:transparent; border:1px solid var(--line); color:var(--olive-dark); transition:background .2s,color .2s,transform .2s; }
+  .nav-social a{
+    width:var(--nav-social-size); height:var(--nav-social-size);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:transparent; border:1px solid var(--line); color:var(--olive-dark);
+    transition:background .2s,color .2s,transform .2s,width .35s ease,height .35s ease;
+  }
   .nav-social a:hover{ background:var(--olive); color:#fff; transform:translateY(-2px); }
-  .nav-social svg{ width:18px; height:18px; }
+  .nav-social svg{ width:var(--nav-social-icon); height:var(--nav-social-icon); transition:width .35s ease,height .35s ease; }
   .nav-toggle{ display:none; background:none; border:none; cursor:pointer; padding:9px; color:var(--ink); }
   .nav-toggle svg{ width:26px; height:26px; }
   .nav-cta-adopta{
-    display:inline-flex; align-items:center; height:44px; padding:0 20px;
+    display:inline-flex; align-items:center; height:var(--nav-cta-h); padding:0 20px;
     border-radius:12px; background:var(--olive); color:#fff; text-decoration:none;
     font-weight:700; font-size:0.96rem; box-shadow:0 6px 16px rgba(88,106,55,0.3);
-    transition:background .2s,transform .2s;
+    transition:background .2s,transform .2s,height .35s ease;
   }
   .nav-cta-adopta:hover{ background:var(--olive-dark); transform:translateY(-1px); }
   @media(max-width:980px){
+    .nav-header{ --nav-pad-y:18px; --nav-logo-h:40px; --nav-brand-size:1.7rem; }
+    .nav-header.is-scrolled{ --nav-pad-y:14px; --nav-logo-h:34px; --nav-brand-size:1.55rem; }
     .nav-links{ position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; background:var(--paper); border-bottom:1px solid var(--line); max-height:0; overflow:hidden; transition:max-height .35s ease; }
     .nav-links[data-open="true"]{ max-height:400px; }
     .nav-links li{ width:100%; }
@@ -79,7 +124,8 @@
   .fb-inner{ display:grid; grid-template-columns:0.82fr 1.18fr; gap:clamp(32px,4vw,52px); align-items:center; }
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,4vw,52px); align-items:start; }
   @media(max-width:900px){ .hero-inner,.labor-inner,.fb-inner,.contact-grid{ grid-template-columns:1fr; } }
-  html,body{ overflow-x:hidden; }
+  html{ overflow-x:clip; }
+  body{ overflow-x:clip; }
   .animals-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(250px, 300px));
@@ -95,7 +141,7 @@
     0%,100%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 0 rgba(88,106,55,0.5); }
     50%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 12px rgba(88,106,55,0); }
   }
-  @media(prefers-reduced-motion:reduce){ .wa-float{ animation:none; } html{ scroll-behavior:auto; } }
+  @media(prefers-reduced-motion:reduce){ .wa-float{ animation:none; } html{ scroll-behavior:auto; } .nav-header,.nav-inner,.nav-logo,.nav-brand,.nav-links,.nav-social a,.nav-social svg,.nav-cta-adopta{ transition:none !important; } }
   #paw-trail{
     position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;
   }
@@ -122,9 +168,9 @@
 
 <header class="nav-header">
   <div class="nav-inner">
-    <a href="#inicio" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink);">
-      <svg width="34" height="34" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#586A37" stroke-width="2" fill="#FCF8ED"/><path d="M13 22c0-4 3-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6Z" fill="#AE4E33"/><circle cx="16.5" cy="14" r="2.6" fill="#586A37"/><circle cx="23.5" cy="14" r="2.6" fill="#586A37"/></svg>
-      <span style="font-family:'Newsreader',serif; font-weight:600; font-size:1.55rem; letter-spacing:-0.02em;">Rovame</span>
+    <a href="#inicio" class="nav-brand-link">
+      <img src="assets/logorovame.svg" alt="" class="nav-logo" width="28" height="34">
+      <span class="nav-brand">Rovame</span>
     </a>
     <ul class="nav-links" id="navLinks" data-open="false">
       <li><a href="#labor">Nuestra labor</a></li>
@@ -461,6 +507,14 @@
 
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
+  const navHeader = document.querySelector('.nav-header');
+
+  function updateNavScroll(){
+    navHeader.classList.toggle('is-scrolled', window.scrollY > 20);
+  }
+  updateNavScroll();
+  window.addEventListener('scroll', updateNavScroll, { passive:true });
+
   navToggle.addEventListener('click', () => {
     navLinks.dataset.open = navLinks.dataset.open === 'true' ? 'false' : 'true';
   });

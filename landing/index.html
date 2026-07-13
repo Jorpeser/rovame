@@ -157,6 +157,7 @@
     55%{ opacity:0.5; }
     100%{ opacity:0; }
   }
+  .paw-print.is-leaving{ animation:none; }
   @media(prefers-reduced-motion:reduce){ #paw-trail{ display:none; } }
   ::selection{ background:var(--gold); color:var(--ink); }
   a:focus-visible,button:focus-visible{ outline:2.5px solid var(--clay); outline-offset:3px; border-radius:3px; }
@@ -579,7 +580,24 @@
       while(trail.children.length > MAX_PRINTS){
         trail.firstChild.remove();
       }
-      paw.addEventListener('animationend', () => paw.remove(), { once:true });
+      paw.addEventListener('animationend', (e) => {
+        if(paw.classList.contains('is-leaving') || e.animationName !== 'paw-fade') return;
+        paw.remove();
+      }, { once:true });
+    }
+
+    function fadeOutPaws(){
+      trail.querySelectorAll('.paw-print:not(.is-leaving)').forEach(paw => {
+        const opacity = getComputedStyle(paw).opacity;
+        paw.classList.add('is-leaving');
+        paw.getAnimations().forEach(a => a.cancel());
+        paw.animate(
+          [{ opacity }, { opacity: 0 }],
+          { duration: 550, easing: 'ease-out', fill: 'forwards' }
+        ).addEventListener('finish', () => paw.remove(), { once:true });
+      });
+      lastX = null;
+      lastY = null;
     }
 
     function onMove(x, y){
@@ -610,6 +628,8 @@
       lastX = null;
       lastY = null;
     });
+
+    window.addEventListener('scroll', fadeOutPaws, { passive:true });
   })();
 })();
 </script>

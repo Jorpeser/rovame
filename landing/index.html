@@ -86,6 +86,7 @@
   .nav-links{ display:flex; gap:clamp(15px,2vw,28px); list-style:none; margin:0; padding:0; font-size:var(--nav-link-size); font-weight:600; transition:font-size .35s ease; }
   .nav-links a{ text-decoration:none; color:var(--ink-soft); padding-bottom:3px; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
   .nav-links a:hover{ color:var(--olive-dark); border-color:var(--clay); }
+  .nav-links a.is-active{ color:var(--olive-dark); border-bottom-color:var(--clay); }
   .nav-right{ display:flex; align-items:center; gap:12px; }
   .nav-social{ display:flex; gap:8px; }
   .nav-social a{
@@ -512,7 +513,22 @@
 
   function updateNavScroll(){
     navHeader.classList.toggle('is-scrolled', window.scrollY > 20);
+    updateActiveSection();
   }
+
+  function updateActiveSection(){
+    const mark = window.scrollY + navHeader.offsetHeight + 80;
+    let current = '';
+    document.querySelectorAll('section[id]').forEach(section => {
+      if(section.offsetTop <= mark) current = section.id;
+    });
+    navLinks.querySelectorAll('a[href^="#"]').forEach(a => {
+      const active = a.getAttribute('href') === `#${current}`;
+      a.classList.toggle('is-active', active);
+      a.toggleAttribute('aria-current', active);
+    });
+  }
+
   updateNavScroll();
   window.addEventListener('scroll', updateNavScroll, { passive:true });
 

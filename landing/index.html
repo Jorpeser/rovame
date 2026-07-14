@@ -150,6 +150,53 @@
   .animal-card:nth-child(3n+2){ transform:rotate(1.1deg); }
   .animal-card:nth-child(3n+3){ transform:rotate(-0.7deg); }
   .animal-card:hover{ transform:rotate(0deg) translateY(-5px); box-shadow:var(--shadow); z-index:2; }
+  .stories-carousel-outer{
+    position:relative;
+    margin:0 calc(-1 * clamp(18px,4vw,42px));
+    padding:0 clamp(18px,4vw,42px);
+  }
+  .stories-carousel-outer::after{
+    content:''; position:absolute; top:0; right:0; bottom:0; width:56px; pointer-events:none;
+    background:linear-gradient(to right, transparent, var(--paper-alt));
+  }
+  .stories-carousel{
+    display:flex; gap:24px;
+    overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:clamp(18px,4vw,42px);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    padding:4px 0 12px;
+    touch-action:pan-x;
+  }
+  .stories-carousel.is-scrollable{ cursor:grab; }
+  .stories-carousel.is-dragging{
+    cursor:grabbing;
+    scroll-snap-type:none;
+    user-select:none;
+  }
+  .stories-carousel.is-dragging .story-card{ pointer-events:none; }
+  .stories-carousel::-webkit-scrollbar{ display:none; }
+  .story-card{
+    flex:0 0 min(320px, calc(100vw - 72px));
+    scroll-snap-align:start;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r);
+    padding:28px; box-shadow:var(--shadow-sm);
+    display:flex; flex-direction:column;
+  }
+  .stories-dots{
+    display:flex; justify-content:center; align-items:center; gap:4px;
+    margin-top:18px; min-height:28px;
+  }
+  .stories-dots[hidden]{ display:none; }
+  .stories-dots button{
+    box-sizing:content-box;
+    width:8px; height:8px; padding:10px; border:none; border-radius:50%;
+    background-color:rgba(44,39,23,0.22); background-clip:content-box;
+    cursor:pointer; transition:background-color .2s,transform .2s;
+  }
+  .stories-dots button.is-active{ background-color:var(--olive); transform:scale(1.2); }
+  .stories-dots button:focus-visible{ outline:2px solid var(--clay); outline-offset:3px; }
   @keyframes wa-pulse{
     0%,100%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 0 rgba(88,106,55,0.5); }
     50%{ box-shadow:0 10px 26px rgba(0,0,0,0.28),0 0 0 12px rgba(88,106,55,0); }
@@ -287,7 +334,10 @@
       <h2 style="font-size:clamp(1.9rem,3.5vw,2.7rem); margin-bottom:14px;">Ya encontraron su sitio</h2>
       <p style="color:var(--ink-soft); font-size:1.1rem;">Cada adopción es distinta, pero todas tienen algo en común: un animal que por fin encontró su hogar. Anímate a escribir la tuya.</p>
     </div>
-    <div id="storiesGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:24px;"></div>
+    <div class="stories-carousel-outer">
+      <div id="storiesGrid" class="stories-carousel" tabindex="0" aria-label="Historias de adopción"></div>
+    </div>
+    <div id="storiesDots" class="stories-dots" role="tablist" aria-label="Historias" hidden></div>
   </div>
 </section>
 
@@ -471,7 +521,7 @@
       ? `<img src="${esc(s.fotoUrl)}?w=120&h=120&fit=crop" alt="${esc(s.nombreAnimal)}" style="width:52px; height:52px; border-radius:50%; object-fit:cover; flex-shrink:0;">`
       : `<div style="width:52px; height:52px; border-radius:50%; background:var(--olive); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Newsreader',serif; font-weight:600; font-size:1.2rem; flex-shrink:0;">${initial}</div>`;
     return `
-      <div style="background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:28px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column;">
+      <div class="story-card">
         <div style="display:flex; align-items:center; gap:13px; margin-bottom:18px;">
           ${avatar}
           <div style="line-height:1.3;">
@@ -494,13 +544,133 @@
   const sampleStories = [
     { nombreAnimal:'Colín', familiaAdoptante:'Adoptado por la familia Martínez', testimonio:'Llegó asustado y desconfiado. Hoy nos recibe en la puerta cada tarde como si lleváramos toda la vida juntos.' },
     { nombreAnimal:'Duna', familiaAdoptante:'Adoptada por Marta, Casasimarro', testimonio:'Buscábamos compañía para nuestro perro mayor. Duna le devolvió las ganas de jugar a los dos.' },
-    { nombreAnimal:'Bruno', familiaAdoptante:'Adoptado por la familia Sánchez', testimonio:'Nos dijeron que sería un perro tranquilo para el pueblo. Se quedaron cortos: es la alegría de toda la calle.' },
+    { nombreAnimal:'Colín', familiaAdoptante:'Adoptado por la familia Martínez', testimonio:'Llegó asustado y desconfiado. Hoy nos recibe en la puerta cada tarde como si lleváramos toda la vida juntos.' },
   ];
 
   const animalsGrid = document.getElementById('animalsGrid');
   const storiesGrid = document.getElementById('storiesGrid');
+  const storiesDots = document.getElementById('storiesDots');
   animalsGrid.innerHTML = sampleAnimals.map(renderAnimalCard).join('');
-  storiesGrid.innerHTML = sampleStories.map(renderStoryCard).join('');
+
+  function renderStories(stories){
+    storiesGrid.innerHTML = stories.map(renderStoryCard).join('');
+    requestAnimationFrame(() => requestAnimationFrame(setupStoriesCarousel));
+  }
+  renderStories(sampleStories);
+
+  let storyCards = [];
+
+  function getStoriesMaxDots(){
+    return window.matchMedia('(max-width:980px)').matches ? 3 : 5;
+  }
+
+  function getStoriesScrollMax(){
+    return Math.max(0, storiesGrid.scrollWidth - storiesGrid.clientWidth);
+  }
+
+  function getStoriesDotCount(){
+    if(storyCards.length <= 1 || getStoriesScrollMax() <= 2) return 0;
+    const gap = 24;
+    const cardSpan = storyCards[0].offsetWidth + gap;
+    const visible = Math.max(1, Math.floor((storiesGrid.clientWidth + gap) / cardSpan));
+    const pages = Math.ceil(storyCards.length / visible);
+    return Math.min(getStoriesMaxDots(), pages);
+  }
+
+  function setupStoriesCarousel(){
+    storyCards = [...storiesGrid.querySelectorAll('.story-card')];
+    const scrollable = getStoriesScrollMax() > 2;
+    storiesGrid.classList.toggle('is-scrollable', scrollable && storyCards.length > 1);
+
+    const dotCount = getStoriesDotCount();
+    if(dotCount <= 0){
+      storiesDots.hidden = true;
+      storiesDots.innerHTML = '';
+      return;
+    }
+
+    storiesDots.hidden = false;
+    storiesDots.innerHTML = Array.from({ length: dotCount }, (_, i) =>
+      `<button type="button" role="tab" aria-label="Grupo ${i + 1} de historias" data-index="${i}" aria-selected="false"></button>`
+    ).join('');
+    updateStoriesDot();
+  }
+
+  function updateStoriesDot(){
+    const dots = storiesDots.querySelectorAll('button');
+    const dotCount = dots.length;
+    if(!dotCount) return;
+
+    const maxScroll = getStoriesScrollMax();
+    let active = 0;
+    if(dotCount > 1 && maxScroll > 0){
+      active = Math.round(storiesGrid.scrollLeft / maxScroll * (dotCount - 1));
+      active = Math.max(0, Math.min(dotCount - 1, active));
+    }
+
+    dots.forEach((dot, i) => {
+      const on = i === active;
+      dot.classList.toggle('is-active', on);
+      dot.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+
+  function scrollToStoriesDot(index){
+    const dotCount = storiesDots.querySelectorAll('button').length;
+    if(!dotCount) return;
+    const maxScroll = getStoriesScrollMax();
+    const target = dotCount === 1 ? 0 : (maxScroll / (dotCount - 1)) * index;
+    storiesGrid.scrollTo({ left: target, behavior:'smooth' });
+  }
+
+  storiesGrid.addEventListener('scroll', () => requestAnimationFrame(updateStoriesDot), { passive:true });
+  storiesGrid.addEventListener('scrollend', updateStoriesDot, { passive:true });
+  storiesDots.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-index]');
+    if(!btn) return;
+    scrollToStoriesDot(Number(btn.dataset.index));
+  });
+  window.addEventListener('resize', () => requestAnimationFrame(setupStoriesCarousel), { passive:true });
+
+  (function initStoriesDrag(){
+    let dragging = false, startX = 0, startScroll = 0, pointerId = null;
+
+    storiesGrid.addEventListener('pointerdown', (e) => {
+      if(!storiesGrid.classList.contains('is-scrollable') || e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX;
+      startScroll = storiesGrid.scrollLeft;
+      pointerId = e.pointerId;
+      storiesGrid.classList.add('is-dragging');
+      storiesGrid.setPointerCapture(pointerId);
+    });
+
+    storiesGrid.addEventListener('pointermove', (e) => {
+      if(!dragging || e.pointerId !== pointerId) return;
+      storiesGrid.scrollLeft = startScroll - (e.clientX - startX);
+    });
+
+    function stopDrag(e){
+      if(!dragging || (e.pointerId !== pointerId && e.type !== 'pointercancel')) return;
+      dragging = false;
+      storiesGrid.classList.remove('is-dragging');
+      if(pointerId !== null){
+        try{ storiesGrid.releasePointerCapture(pointerId); }catch(err){}
+      }
+      pointerId = null;
+      updateStoriesDot();
+    }
+
+    storiesGrid.addEventListener('pointerup', stopDrag);
+    storiesGrid.addEventListener('pointercancel', stopDrag);
+
+    storiesGrid.addEventListener('wheel', (e) => {
+      if(!storiesGrid.classList.contains('is-scrollable')) return;
+      if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      storiesGrid.scrollLeft += e.deltaY;
+    }, { passive:false });
+  })();
 
   async function loadAnimals(){
     try{
@@ -512,7 +682,7 @@
   async function loadStories(){
     try{
       const historias = await sanityFetch(`*[_type=="historiaExito" && destacado==true]|order(fecha desc){nombreAnimal,familiaAdoptante,testimonio,"fotoUrl":foto.asset->url}`);
-      if(historias.length) storiesGrid.innerHTML = historias.map(renderStoryCard).join('');
+      if(historias.length) renderStories(historias);
     }catch(e){ console.warn('No se pudieron cargar las historias desde Sanity, se mantienen las de ejemplo.', e); }
   }
 
@@ -582,7 +752,7 @@
     function isBackground(x, y){
       const blocked = document.elementFromPoint(x, y);
       if(!blocked || blocked.closest('#paw-trail')) return false;
-      if(blocked.closest('.nav-header, footer, .wa-float, .animal-card, iframe, video, button')) return false;
+      if(blocked.closest('.nav-header, footer, .wa-float, .animal-card, .story-card, iframe, video, button')) return false;
       if(blocked.closest('a, input, textarea, select')) return false;
       if(blocked.closest('[style*="background:var(--card)"], [style*="border:2px dashed"], [style*="border:1px dashed"]')) return false;
       return true;
